@@ -1,0 +1,18 @@
+{
+  "name": "@archview/io",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "description": "ArchView IO 层：JSON 工程文件 / glTF / CSV / IndexedDB / 截图（FR-I 系列）",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@archview/core": "workspace:*"
+  },
+  "devDependencies": {
+    "typescript": "~5.6.3"
+  }
+}

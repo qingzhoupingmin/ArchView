@@ -1,0 +1,9 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@archview/*": ["../*/src"]
+    }
+  },
+  "include": ["src", "data"]
+}

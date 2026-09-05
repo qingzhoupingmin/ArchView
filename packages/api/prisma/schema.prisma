@@ -1,0 +1,73 @@
+// ArchView 数据库（SQLite 文件存储，产品文档 §11 / FR-U 系列）
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// 用户（FR-U01 / U04 / U05）
+model User {
+  id                 String    @id @default(cuid())
+  username           String    @unique
+  passwordHash       String // argon2id
+  nickname           String
+  role               String    @default("user") // super_admin | user（FR-U02 / U05）
+  email              String?
+  avatar             String? // 预设头像 ID（v1 不做上传，FR-U04）
+  status             String    @default("active") // active | disabled（禁用后不可登录，已发 refresh 失效，FR-U05）
+  mustChangePassword Boolean   @default(false) // 首次登录强制改密（T1.2 接入流程）
+  lastLoginAt        DateTime?
+  deletedAt          DateTime? // 软删除（FR-U05：删除为软删，列表不展示）
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
+  projects           Project[]
+  refreshTokens      RefreshToken[]
+}
+
+// 刷新令牌（FR-U03：登出吊销 / 多端并存 / 强制下线；字段见产品文档 §6.2）
+model RefreshToken {
+  jti       String   @id // 令牌 ID（唯一，JWT jti 声明）
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime // 签发 + 7 天
+  revoked   Boolean  @default(false) // 登出 / 改密 / 重置密码 / 禁用时置真
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+}
+
+// 工程（FR-U07；数据本体存 JSON，schema 见 packages/core Project）
+model Project {
+  id         String   @id @default(cuid())
+  name       String
+  ownerId    String
+  owner      User     @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  visibility String   @default("private") // private | shared
+  dataJson   String // 工程 JSON（Product 文档 FR-I01 的 .archview 内容）
+  /// 乐观锁版本号（数据隔离专项·批次 D / S9）：PATCH 带 baseVersion，不匹配即 409，
+  /// 避免同账号多标签页 / 多端全量覆盖互相吞改动。
+  version    Int      @default(1)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([ownerId])
+}
+
+// 操作日志（FR-U09；产品文档 §6.2）—— 数据隔离专项·批次 D 提前接入：
+// 此前「超管读过 / 改过谁的工程」完全无从追溯，串号事故只能靠猜。
+// userId 刻意不做 FK 关联：账号软删/清除后日志必须留下（审计价值高于引用完整性）。
+model AuditLog {
+  id        String   @id @default(cuid())
+  userId    String? // 操作人（登录失败时可为空）
+  ip        String? // 来源 IP（反代场景取 X-Forwarded-For 首值）
+  action    String // login / login.fail / logout / project.read_foreign / project.delete / user.create…
+  target    String? // 目标 ID（工程 ID / 用户 ID）
+  detail    String? // 详情 JSON（字符串存，避免 SQLite 无 jsonb）
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@index([action, createdAt])
+}

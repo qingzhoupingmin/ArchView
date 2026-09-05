@@ -1,0 +1,840 @@
+[
+  {
+    "id": "space-floor",
+    "name": "架空地板砖",
+    "category": "space",
+    "icon": "▦",
+    "defaultSize": { "w": 600, "d": 600, "h": 50 },
+    "geometry": [
+      { "kind": "box", "size": [600, 50, 600], "offset": { "x": 0, "y": 25, "z": 0 }, "color": "#E9E5EC", "name": "panel", "material": "matte", "castShadow": false },
+      { "kind": "box", "size": [600, 8, 34], "offset": { "x": 0, "y": 46, "z": -283 }, "color": "#C9C2D2", "name": "trim-n", "material": "metal", "castShadow": false },
+      { "kind": "box", "size": [600, 8, 34], "offset": { "x": 0, "y": 46, "z": 283 }, "color": "#C9C2D2", "name": "trim-s", "material": "metal", "castShadow": false },
+      { "kind": "box", "size": [34, 8, 532], "offset": { "x": -283, "y": 46, "z": 0 }, "color": "#C9C2D2", "name": "trim-w", "material": "metal", "castShadow": false },
+      { "kind": "box", "size": [34, 8, 532], "offset": { "x": 283, "y": 46, "z": 0 }, "color": "#C9C2D2", "name": "trim-e", "material": "metal", "castShadow": false },
+      { "kind": "box", "size": [24, 6, 24], "offset": { "x": -250, "y": 53, "z": -250 }, "color": "#9C95AE", "name": "screw-nw", "material": "metal", "lod": "near", "castShadow": false },
+      { "kind": "box", "size": [24, 6, 24], "offset": { "x": 250, "y": 53, "z": -250 }, "color": "#9C95AE", "name": "screw-ne", "material": "metal", "lod": "near", "castShadow": false },
+      { "kind": "box", "size": [24, 6, 24], "offset": { "x": -250, "y": 53, "z": 250 }, "color": "#9C95AE", "name": "screw-sw", "material": "metal", "lod": "near", "castShadow": false },
+      { "kind": "box", "size": [24, 6, 24], "offset": { "x": 250, "y": 53, "z": 250 }, "color": "#9C95AE", "name": "screw-se", "material": "metal", "lod": "near", "castShadow": false }
+    ],
+    "defaultAttrs": {}
+  },
+  {
+    "id": "space-wall",
+    "name": "墙体段",
+    "category": "space",
+    "icon": "▭",
+    "defaultSize": { "w": 2400, "d": 200, "h": 3600 },
+    "geometry": [
+      { "kind": "box", "size": [2400, 3600, 200], "offset": { "x": 0, "y": 1800, "z": 0 }, "color": "#F0EBF1", "name": "body", "material": "matte" }
+    ],
+    "defaultAttrs": { "lengthMM": 2400 }
+  },
+  {
+    "id": "space-door",
+    "name": "机房门",
+    "category": "space",
+    "icon": "🚪",
+    "defaultSize": { "w": 900, "d": 100, "h": 2100 },
+    "geometry": [
+      { "kind": "box", "size": [780, 2000, 60], "offset": { "x": 0, "y": 1000, "z": 0 }, "color": "#DCD5E1", "name": "leaf", "material": "matte" },
+      { "kind": "box", "size": [60, 2100, 120], "offset": { "x": -420, "y": 1050, "z": 0 }, "color": "#BCB3C6", "name": "frame-l", "material": "metal", "castShadow": false },
+      { "kind": "box", "size": [60, 2100, 120], "offset": { "x": 420, "y": 1050, "z": 0 }, "color": "#BCB3C6", "name": "frame-r", "material": "metal", "castShadow": false },
+      { "kind": "box", "size": [900, 60, 120], "offset": { "x": 0, "y": 2070, "z": 0 }, "color": "#BCB3C6", "name": "frame-top", "material": "metal", "castShadow": false },
+      { "kind": "box", "size": [900, 30, 120], "offset": { "x": 0, "y": 15, "z": 0 }, "color": "#BCB3C6", "name": "frame-bottom", "material": "metal", "castShadow": false },
+      { "kind": "cylinder", "size": [15, 220], "offset": { "x": 330, "y": 1050, "z": 45 }, "color": "#4A4458", "name": "handle", "material": "rubber", "castShadow": false },
+      { "kind": "box", "size": [240, 700, 10], "offset": { "x": 0, "y": 1500, "z": 33 }, "color": "#D9E3EA", "name": "window", "material": "glass", "lod": "near", "castShadow": false },
+      { "kind": "box", "size": [200, 80, 80], "offset": { "x": -100, "y": 1980, "z": 0 }, "color": "#9C95AE", "name": "closer", "material": "metal", "lod": "near", "castShadow": false },
+      { "kind": "box", "size": [740, 300, 8], "offset": { "x": 0, "y": 200, "z": 33 }, "color": "#BCB3C6", "name": "kick", "material": "metal", "lod": "near", "castShadow": false }
+    ],
+    "defaultAttrs": {}
+  },
+  {
+    "id": "it-rack42",
+    "name": "42U 服务器机柜",
+    "category": "it",
+    "icon": "🗄️",
+    "defaultSize": { "w": 600, "d": 1000, "h": 2000 },
+    "geometry": [
+      { "kind": "box", "size": [600, 1940, 960], "offset": { "x": 0, "y": 1030, "z": -20 }, "color": "#CBC7D4", "name": "body", "material": "metal" },
+      { "kind": "box", "size": [580, 1880, 40], "offset": { "x": 0, "y": 1030, "z": 480 }, "color": "#A9A3B8", "name": "door", "material": "metal", "castShadow": false },
+      { "kind": "box", "size": [500, 1400, 8], "offset": { "x": 0, "y": 1080, "z": 504 }, "color": "#6E6883", "name": "vent", "material": "grille", "castShadow": false },
+      { "kind": "box", "size": [30, 1900, 30], "offset": { "x": -285, "y": 1010, "z": 470 }, "color": "#9C95AE", "name": "rail-l", "material": "metal", "castShadow": false },
+      { "kind": "box", "size": [30, 1900, 30], "offset": { "x": 285, "y": 1010, "z": 470 }, "color": "#9C95AE", "name": "rail-r", "material": "metal", "castShadow": false },
+      { "kind": "box", "size": [520, 14, 10], "offset": { "x": 0, "y": 1985, "z": 503 }, "color": "#7BC47F", "name": "led", "material": "emissive", "castShadow": false },
+      { "kind": "box", "size": [560, 50, 900], "offset": { "x": 0, "y": 25, "z": 0 }, "color": "#4A4458", "name": "foot", "material": "rubber", "castShadow": false },
+      { "kind": "box", "size": [540, 8, 6], "offset": { "x": 0, "y": 400, "z": 501 }, "color": "#8E88A0", "name": "u-strip-1", "material": "metal", "lod": "near", "castShadow": false },
+      { "kind": "box", "size": [540, 8, 6], "offset": { "x": 0, "y": 650, "z": 501 }, "color": "#8E88A0", "name": "u-strip-2", "material": "metal", "lod": "near", "castShadow": false },
+      { "kind": "box", "size": [540, 8, 6], "offset": { "x": 0, "y": 900, "z": 501 }, "color": "#8E88A0", "name": "u-strip-3", "material": "metal", "lod": "near", "castShadow": false },
+      { "kind": "box", "size": [540, 8, 6], "offset": { "x": 0, "y": 1150, "z": 501 }, "color": "#8E88A0", "name": "u-strip-4", "material": "metal", "lod": "near", "castShadow": false },
+      { "kind": "box", "size": [540, 8, 6], "offset": { "x": 0, "y": 1400, "z": 501 }, "color": "#8E88A0", "name": "u-strip-5", "material": "metal", "lod": "near", "castShadow": false },
+      { "kind": "box", "size": [540, 8, 6], "offset": { "x": 0, "y": 1650, "z": 501 }, "color": "#8E88A0", "name": "u-strip-6", "material": "metal", "lod": "near", "castShadow": false },
+      { "kind": "box", "size": [500, 44, 6], "offset": { "x": 0, "y": 520, "z": 499 }, "color": "#3D3846", "name": "device-1", "material": "metal", "lod": "near", "castShadow": false },
+      { "kind": "box", "size": [10, 10, 4], "offset": { "x": 230, "y": 520, "z": 504 }, "color": "#7BC47F", "name": "device-1-led", "material": "emissive", "lod": "near", "castShadow": false },
+      { "kind": "box", "size": [500, 44, 6], "offset": { "x": 0, "y": 780, "z": 499 }, "color": "#3D3846", "name": "device-2", "material": "metal", "lod": "near", "castShadow": false },
+      { "kind": "box", "size": [10, 10, 4], "offset": { "x": 230, "y": 780, "z": 504 }, "color": "#F2B84B", "name": "device-2-led", "material": "emissive", "lod": "near", "castShadow": false },
+      { "kind": "box", "size": [160, 30, 6], "offset": { "x": -170, "y": 1930, "z": 502 }, "color": "#4A4458", "name": "nameplate", "material": "metal", "lod": "near", "castShadow": false },
+      { "kind": "box", "size": [520, 1600, 8], "offset": { "x": 0, "y": 1050, "z": -504 }, "color": "#6E6883", "name": "vent-rear", "material": "grille", "lod": "near", "castShadow": false }
+    ],
+    "defaultAttrs": { "ratedPowerW": 8000 },
+    "uSlots": 42
+  },
+  {
+    "id": "it-rack47",
+    "name": "47U 服务器机柜",
+    "category": "it",
+    "icon": "🗄️",
+    "defaultSize": { "w": 600, "d": 1100, "h": 2100 },
+    "geometry": [
+      { "kind": "box", "size": [600, 2040, 1060], "offset": { "x": 0, "y": 1080, "z": -20 }, "color": "#C6C2D0", "name": "body", "material": "metal" },
+      { "kind": "box", "size": [580, 1980, 40], "offset": { "x": 0, "y": 1080, "z": 530 }, "color": "#A49EB4", "name": "door", "material": "metal", "castShadow": false },
+      { "kind": "box", "size": [500, 1480, 8], "offset": { "x": 0, "y": 1130, "z": 554 }, "color": "#6E6883", "name": "vent", "material": "grille", "castShadow": false },
+      { "kind": "box", "size": [30, 2000, 30], "offset": { "x": -285, "y": 1060, "z": 520 }, "color": "#9891A9", "name": "rail-l", "material": "metal", "castShadow": false },
+      { "kind": "box", "size": [30, 2000, 30], "offset": { "x": 285, "y": 1060, "z": 520 }, "color": "#9891A9", "name": "rail-r", "material": "metal", "castShadow": false },
+      { "kind": "box", "size": [520, 14, 10], "offset": { "x": 0, "y": 2085, "z": 553 }, "color": "#7BC47F", "name": "led", "material": "emissive", "castShadow": false },
+      { "kind": "box", "size": [560, 50, 1000], "offset": { "x": 0, "y": 25, "z": 0 }, "color": "#4A4458", "name": "foot", "material": "rubber", "castShadow": false },
+      { "kind": "box", "size": [540, 8, 6], "offset": { "x": 0, "y": 450, "z": 555 }, "color": "#8E88A0", "name": "u-strip-1", "material": "metal", "lod": "near", "castShadow": false },
+      { "kind": "box", "size": [540, 8, 6], "offset": { "x": 0, "y": 750, "z": 555 }, "color": "#8E88A0", "name": "u-strip-2", "material": "metal", "lod": "near", "castShadow": false },
+      { "kind": "box", "size": [540, 8, 6], "offset": { "x": 0, "y": 1050, "z": 555 }, "color": "#8E88A0", "name": "u-strip-3", "material": "metal", "lod": "near", "castShadow": false },
+      { "kind": "box", "size": [540, 8, 6], "offset": { "x": 0, "y": 1350, "z": 555 }, "color": "#8E88A0", "name": "u-strip-4", "material": "metal", "lod": "near", "castShadow": false },
+      { "kind": "box", "size": [540, 8, 6], "offset": { "x": 0, "y": 1650, "z": 555 }, "color": "#8E88A0", "name": "u-strip-5", "material": "metal", "lod": "near", "castShadow": false },
+      { "kind": "box", "size": [540, 8, 6], "offset": { "x": 0, "y": 1950, "z": 555 }, "color": "#8E88A0", "name": "u-strip-6", "material": "metal", "lod": "near", "castShadow": false },
+      { "kind": "box", "size": [500, 44, 6], "offset": { "x": 0, "y": 600, "z": 553 }, "color": "#3D3846", "name": "device-1", "material": "metal", "lod": "near", "castShadow": false },
+      { "kind": "box", "size": [500, 44, 6], "offset": { "x": 0, "y": 900, "z": 553 }, "color": "#3D3846", "name": "device-2", "material": "metal", "lod": "near", "castShadow": false },
+      { "kind": "box", "size": [160, 30, 6], "offset": { "x": -170, "y": 2030, "z": 556 }, "color": "#4A4458", "name": "nameplate", "material": "metal", "lod": "near", "castShadow": false },
+      { "kind": "box", "size": [520, 1700, 8], "offset": { "x": 0, "y": 1100, "z": -554 }, "color": "#6E6883", "name": "vent-rear", "material": "grille", "lod": "near", "castShadow": false }
+    ],
+    "defaultAttrs": { "ratedPowerW": 8000 },
+    "uSlots": 47
+  },
+  {
+    "id": "it-net-rack",
+    "name": "网络机柜",
+    "category": "it",
+    "icon": "🖥️",
+    "defaultSize": { "w": 600, "d": 800, "h": 2000 },
+    "geometry": [
+      { "kind": "box", "size": [600, 1940, 760], "offset": { "x": 0, "y": 1030, "z": -20 }, "color": "#C2BFCC", "name": "body", "material": "metal" },
+      { "kind": "box", "size": [556, 1856, 10], "offset": { "x": 0, "y": 1020, "z": 394 }, "color": "#6E6883", "name": "vent", "material": "grille", "castShadow": false },
+      { "kind": "box", "size": [30, 1900, 30], "offset": { "x": -285, "y": 1010, "z": 370 }, "color": "#A9A3B8", "name": "rail-l", "material": "metal", "castShadow": false },
+      { "kind": "box", "size": [30, 1900, 30], "offset": { "x": 285, "y": 1010, "z": 370 }, "color": "#A9A3B8", "name": "rail-r", "material": "metal", "castShadow": false },
+      { "kind": "box", "size": [520, 14, 10], "offset": { "x": 0, "y": 1985, "z": 400 }, "color": "#7BC47F", "name": "led", "material": "emissive", "castShadow": false },
+      { "kind": "box", "size": [560, 50, 700], "offset": { "x": 0, "y": 25, "z": 0 }, "color": "#4A4458", "name": "foot", "material": "rubber", "castShadow": false }
+    ],
+    "defaultAttrs": { "ratedPowerW": 3000 }
+  },
+  {
+    "id": "it-1u",
+    "name": "1U 服务器",
+    "category": "it",
+    "icon": "▭",
+    "defaultSize": { "w": 450, "d": 800, "h": 44 },
+    "geometry": [
+      { "kind": "box", "size": [450, 44, 800], "offset": { "x": 0, "y": 22, "z": 0 }, "color": "#D8D5DE", "name": "body", "material": "metal", "castShadow": false },
+      { "kind": "box", "size": [30, 30, 16], "offset": { "x": -200, "y": 22, "z": 400 }, "color": "#585266", "name": "handle-l", "material": "metal", "castShadow": false },
+      { "kind": "box", "size": [30, 30, 16], "offset": { "x": 200, "y": 22, "z": 400 }, "color": "#585266", "name": "handle-r", "material": "metal", "castShadow": false },
+      { "kind": "box", "size": [80, 6, 6], "offset": { "x": -140, "y": 38, "z": 403 }, "color": "#7FC87F", "name": "led", "material": "emissive", "castShadow": false },
+      { "kind": "box", "size": [160, 28, 6], "offset": { "x": 80, "y": 22, "z": 403 }, "color": "#4A4458", "name": "vent", "material": "grille", "castShadow": false }
+    ],
+    "defaultAttrs": { "powerW": 300 }
+  },
+  {
+    "id": "it-2u",
+    "name": "2U 服务器",
+    "category": "it",
+    "icon": "▭",
+    "defaultSize": { "w": 450, "d": 850, "h": 89 },
+    "geometry": [
+      { "kind": "box", "size": [450, 89, 850], "offset": { "x": 0, "y": 44.5, "z": 0 }, "color": "#D8D5DE", "name": "body", "material": "metal", "castShadow": false },
+      { "kind": "box", "size": [30, 60, 16], "offset": { "x": -200, "y": 44.5, "z": 425 }, "color": "#585266", "name": "handle-l", "material": "metal", "castShadow": false },
+      { "kind": "box", "size": [30, 60, 16], "offset": { "x": 200, "y": 44.5, "z": 425 }, "color": "#585266", "name": "handle-r", "material": "metal", "castShadow": false },
+      { "kind": "box", "size": [80, 6, 6], "offset": { "x": -120, "y": 78, "z": 428 }, "color": "#7FC87F", "name": "led", "material": "emissive", "castShadow": false },
+      { "kind": "box", "size": [180, 50, 6], "offset": { "x": 80, "y": 44.5, "z": 428 }, "color": "#4A4458", "name": "vent", "material": "grille", "castShadow": false }
+    ],
+    "defaultAttrs": { "powerW": 500 }
+  },
+  {
+    "id": "it-4u",
+    "name": "4U 服务器",
+    "category": "it",
+    "icon": "▭",
+    "defaultSize": { "w": 450, "d": 900, "h": 178 },
+    "geometry": [
+      { "kind": "box", "size": [450, 178, 900], "offset": { "x": 0, "y": 89, "z": 0 }, "color": "#D8D5DE", "name": "body", "material": "metal", "castShadow": false },
+      { "kind": "box", "size": [30, 120, 16], "offset": { "x": -200, "y": 89, "z": 450 }, "color": "#585266", "name": "handle-l", "material": "metal", "castShadow": false },
+      { "kind": "box", "size": [30, 120, 16], "offset": { "x": 200, "y": 89, "z": 450 }, "color": "#585266", "name": "handle-r", "material": "metal", "castShadow": false },
+      { "kind": "box", "size": [80, 6, 6], "offset": { "x": -120, "y": 160, "z": 453 }, "color": "#7FC87F", "name": "led", "material": "emissive", "castShadow": false },
+      { "kind": "box", "size": [180, 100, 6], "offset": { "x": 80, "y": 89, "z": 453 }, "color": "#4A4458", "name": "vent", "material": "grille", "castShadow": false },
+      { "kind": "box", "size": [180, 120, 8], "offset": { "x": 0, "y": 60, "z": 454 }, "color": "#3D3846", "name": "drive-bay", "material": "matte", "castShadow": false }
+    ],
+    "defaultAttrs": { "powerW": 800 }
+  },
+  {
+    "id": "it-core-switch",
+    "name": "核心交换机",
+    "category": "it",
+    "icon": "🔀",
+    "defaultSize": { "w": 450, "d": 400, "h": 89 },
+    "geometry": [
+      { "kind": "box", "size": [450, 89, 400], "offset": { "x": 0, "y": 44.5, "z": 0 }, "color": "#C9C9D6", "name": "body", "material": "metal", "castShadow": false },
+      { "kind": "box", "size": [140, 50, 8], "offset": { "x": -130, "y": 44.5, "z": 200 }, "color": "#3D3846", "name": "port-l", "material": "matte", "castShadow": false },
+      { "kind": "box", "size": [140, 50, 8], "offset": { "x": 130, "y": 44.5, "z": 200 }, "color": "#3D3846", "name": "port-r", "material": "matte", "castShadow": false },
+      { "kind": "box", "size": [80, 40, 6], "offset": { "x": 0, "y": 55, "z": 203 }, "color": "#7FC8DE", "name": "mgmt", "material": "emissive", "castShadow": false },
+      { "kind": "box", "size": [300, 6, 4], "offset": { "x": 0, "y": 82, "z": 202 }, "color": "#7FC87F", "name": "led", "material": "emissive", "castShadow": false }
+    ],
+    "defaultAttrs": { "powerW": 400 }
+  },
+  {
+    "id": "power-row-pdu",
+    "name": "列头柜（列 PDU）",
+    "category": "power",
+    "icon": "🔌",
+    "defaultSize": { "w": 600, "d": 300, "h": 2000 },
+    "geometry": [
+      { "kind": "box", "size": [600, 1900, 300], "offset": { "x": 0, "y": 1050, "z": 0 }, "color": "#D3C9BF", "name": "body", "material": "metal" },
+      { "kind": "box", "size": [600, 100, 300], "offset": { "x": 0, "y": 50, "z": 0 }, "color": "#585266", "name": "base", "material": "rubber", "castShadow": false },
+      { "kind": "box", "size": [560, 1500, 16], "offset": { "x": 0, "y": 950, "z": 150 }, "color": "#B9AC9D", "name": "door", "material": "metal", "castShadow": false },
+      { "kind": "box", "size": [520, 120, 10], "offset": { "x": 0, "y": 300, "z": 158 }, "color": "#6E6883", "name": "vent", "material": "grille", "castShadow": false },
+      { "kind": "box", "size": [220, 150, 12], "offset": { "x": 0, "y": 1700, "z": 158 }, "color": "#7FC8DE", "name": "panel", "material": "emissive", "castShadow": false },
+      { "kind": "box", "size": [90, 50, 14], "offset": { "x": -150, "y": 1300, "z": 162 }, "color": "#3D3846", "name": "breaker-1", "material": "rubber", "lod": "near", "castShadow": false },
+      { "kind": "box", "size": [90, 50, 14], "offset": { "x": 0, "y": 1300, "z": 162 }, "color": "#3D3846", "name": "breaker-2", "material": "rubber", "lod": "near", "castShadow": false },
+      { "kind": "box", "size": [90, 50, 14], "offset": { "x": 150, "y": 1300, "z": 162 }, "color": "#3D3846", "name": "breaker-3", "material": "rubber", "lod": "near", "castShadow": false },
+      { "kind": "box", "size": [300, 30, 6], "offset": { "x": 0, "y": 1500, "z": 160 }, "color": "#4A4458", "name": "label-strip", "material": "metal", "lod": "near", "castShadow": false }
+    ],
+    "defaultAttrs": { "outputKW": 40 }
+  },
+  {
+    "id": "power-cabinet-pdu",
+    "name": "机柜 PDU（立式）",
+    "category": "power",
+    "icon": "🔋",
+    "defaultSize": { "w": 60, "d": 100, "h": 1600 },
+    "geometry": [
+      { "kind": "box", "size": [60, 1600, 100], "offset": { "x": 0, "y": 800, "z": 0 }, "color": "#CDBFB4", "name": "body", "material": "metal", "castShadow": false },
+      { "kind": "box", "size": [20, 1400, 8], "offset": { "x": 0, "y": 800, "z": 54 }, "color": "#3D3846", "name": "outlet-row", "material": "matte", "castShadow": false },
+      { "kind": "box", "size": [40, 60, 14], "offset": { "x": 0, "y": 1500, "z": 57 }, "color": "#585266", "name": "breaker", "material": "rubber", "castShadow": false },
+      { "kind": "box", "size": [8, 8, 8], "offset": { "x": 0, "y": 1560, "z": 55 }, "color": "#7FC87F", "name": "led", "material": "emissive", "castShadow": false }
+    ],
+    "defaultAttrs": { "outputKW": 10 }
+  },
+  {
+    "id": "cooling-cold-aisle",
+    "name": "冷通道封闭板",
+    "category": "cooling",
+    "icon": "🧊",
+    "defaultSize": { "w": 600, "d": 50, "h": 2000 },
+    "geometry": [
+      { "kind": "box", "size": [600, 40, 50], "offset": { "x": 0, "y": 1980, "z": 0 }, "color": "#B4BCC6", "name": "rail-top", "material": "metal", "castShadow": false },
+      { "kind": "box", "size": [600, 40, 50], "offset": { "x": 0, "y": 20, "z": 0 }, "color": "#B4BCC6", "name": "rail-bottom", "material": "metal", "castShadow": false },
+      { "kind": "box", "size": [20, 1920, 50], "offset": { "x": -290, "y": 1000, "z": 0 }, "color": "#B4BCC6", "name": "rail-l", "material": "metal", "castShadow": false },
+      { "kind": "box", "size": [20, 1920, 50], "offset": { "x": 290, "y": 1000, "z": 0 }, "color": "#B4BCC6", "name": "rail-r", "material": "metal", "castShadow": false },
+      { "kind": "plane", "size": [560, 1920], "offset": { "x": 0, "y": 1000, "z": 0 }, "color": "#D9E3EA", "name": "glass-panel", "material": "glass", "castShadow": false }
+    ],
+    "defaultAttrs": {}
+  },
+  {
+    "id": "cooling-hot-aisle",
+    "name": "热通道封闭板",
+    "category": "cooling",
+    "icon": "♨️",
+    "defaultSize": { "w": 600, "d": 50, "h": 2000 },
+    "geometry": [
+      { "kind": "box", "size": [600, 40, 50], "offset": { "x": 0, "y": 1980, "z": 0 }, "color": "#C6B4B4", "name": "rail-top", "material": "metal", "castShadow": false },
+      { "kind": "box", "size": [600, 40, 50], "offset": { "x": 0, "y": 20, "z": 0 }, "color": "#C6B4B4", "name": "rail-bottom", "material": "metal", "castShadow": false },
+      { "kind": "box", "size": [20, 1920, 50], "offset": { "x": -290, "y": 1000, "z": 0 }, "color": "#C6B4B4", "name": "rail-l", "material": "metal", "castShadow": false },
+      { "kind": "box", "size": [20, 1920, 50], "offset": { "x": 290, "y": 1000, "z": 0 }, "color": "#C6B4B4", "name": "rail-r", "material": "metal", "castShadow": false },
+      { "kind": "plane", "size": [560, 1920], "offset": { "x": 0, "y": 1000, "z": 0 }, "color": "#EAD9D9", "name": "glass-panel", "material": "glass", "castShadow": false }
+    ],
+    "defaultAttrs": {}
+  },
+  {
+    "id": "cable-tray",
+    "name": "顶部走线架",
+    "category": "cable",
+    "icon": "➰",
+    "defaultSize": { "w": 300, "d": 3000, "h": 100 },
+    "geometry": [
+      { "kind": "box", "size": [300, 10, 3000], "offset": { "x": 0, "y": 3300, "z": 0 }, "color": "#8A8494", "name": "bottom", "material": "matte", "anchor": "absolute", "castShadow": false },
+      { "kind": "box", "size": [10, 100, 3000], "offset": { "x": -145, "y": 3350, "z": 0 }, "color": "#C9C2D2", "name": "side-l", "material": "metal", "anchor": "absolute", "castShadow": false },
+      { "kind": "box", "size": [10, 100, 3000], "offset": { "x": 145, "y": 3350, "z": 0 }, "color": "#C9C2D2", "name": "side-r", "material": "metal", "anchor": "absolute", "castShadow": false },
+      { "kind": "box", "size": [280, 8, 20], "offset": { "x": 0, "y": 3304, "z": -1000 }, "color": "#B4BCC6", "name": "rung-1", "material": "metal", "anchor": "absolute", "castShadow": false },
+      { "kind": "box", "size": [280, 8, 20], "offset": { "x": 0, "y": 3304, "z": 0 }, "color": "#B4BCC6", "name": "rung-2", "material": "metal", "anchor": "absolute", "castShadow": false },
+      { "kind": "box", "size": [280, 8, 20], "offset": { "x": 0, "y": 3304, "z": 1000 }, "color": "#B4BCC6", "name": "rung-3", "material": "metal", "anchor": "absolute", "castShadow": false }
+    ],
+    "defaultAttrs": { "lengthMM": 3000 }
+  },
+  {
+    "id": "cooling-ac",
+    "name": "行级精密空调",
+    "category": "ac",
+    "icon": "❄️",
+    "defaultSize": { "w": 1200, "d": 900, "h": 1900 },
+    "geometry": [
+      { "kind": "box", "size": [1200, 1860, 900], "offset": { "x": 0, "y": 930, "z": 0 }, "color": "#C4D4D8", "name": "body", "material": "metal" },
+      { "kind": "box", "size": [1080, 40, 780], "offset": { "x": 0, "y": 1880, "z": 0 }, "color": "#6F8A92", "name": "vent", "material": "grille", "castShadow": false },
+      { "kind": "box", "size": [150, 150, 900], "offset": { "x": -500, "y": 1790, "z": 0 }, "color": "#A9C0C7", "name": "pipe-l", "material": "metal", "castShadow": false },
+      { "kind": "box", "size": [150, 150, 900], "offset": { "x": 500, "y": 1790, "z": 0 }, "color": "#A9C0C7", "name": "pipe-r", "material": "metal", "castShadow": false },
+      { "kind": "cylinder", "size": [50, 25], "offset": { "x": -500, "y": 1885, "z": 0 }, "color": "#EAE0E4", "name": "gauge", "material": "matte", "lod": "near", "castShadow": false },
+      { "kind": "box", "size": [180, 180, 30], "offset": { "x": -500, "y": 1790, "z": 400 }, "color": "#8FA8B0", "name": "flange-l", "material": "metal", "lod": "near", "castShadow": false },
+      { "kind": "box", "size": [180, 180, 30], "offset": { "x": 500, "y": 1790, "z": -400 }, "color": "#8FA8B0", "name": "flange-r", "material": "metal", "lod": "near", "castShadow": false },
+      { "kind": "box", "size": [300, 80, 8], "offset": { "x": 0, "y": 1700, "z": 456 }, "color": "#4A4458", "name": "nameplate", "material": "metal", "lod": "near", "castShadow": false }
+    ],
+    "defaultAttrs": { "coolingKW": 50 }
+  },
+  {
+    "id": "ac-wall",
+    "name": "挂机",
+    "category": "ac",
+    "icon": "❄️",
+    "defaultSize": { "w": 800, "d": 300, "h": 300 },
+    "geometry": [
+      { "kind": "box", "size": [800, 280, 280], "offset": { "x": 0, "y": 2000, "z": 0 }, "color": "#C9D9DD", "name": "body", "material": "matte", "anchor": "absolute", "castShadow": false },
+      { "kind": "box", "size": [760, 240, 12], "offset": { "x": 0, "y": 2010, "z": 137 }, "color": "#D5E2E6", "name": "panel", "material": "matte", "anchor": "absolute", "castShadow": false },
+      { "kind": "box", "size": [760, 40, 20], "offset": { "x": 0, "y": 1880, "z": 140 }, "color": "#A9C0C7", "name": "louver", "material": "matte", "anchor": "absolute", "castShadow": false },
+      { "kind": "plane", "size": [80, 30], "offset": { "x": 300, "y": 2080, "z": 145 }, "color": "#7FC8DE", "name": "display", "material": "emissive", "anchor": "absolute", "castShadow": false },
+      { "kind": "box", "size": [100, 100, 60], "offset": { "x": -350, "y": 2000, "z": -110 }, "color": "#B4C4C8", "name": "pipe-cover", "material": "matte", "anchor": "absolute", "castShadow": false }
+    ],
+    "defaultAttrs": { "coolingKW": 3 }
+  },
+  {
+    "id": "ac-floor",
+    "name": "柜机",
+    "category": "ac",
+    "icon": "❄️",
+    "defaultSize": { "w": 500, "d": 550, "h": 1750 },
+    "geometry": [
+      { "kind": "box", "size": [500, 1700, 550], "offset": { "x": 0, "y": 875, "z": 0 }, "color": "#C4D4D8", "name": "body", "material": "matte" },
+      { "kind": "box", "size": [480, 25, 520], "offset": { "x": 0, "y": 12.5, "z": 0 }, "color": "#585266", "name": "plinth", "material": "rubber", "castShadow": false },
+      { "kind": "box", "size": [420, 220, 16], "offset": { "x": 0, "y": 140, "z": 275 }, "color": "#6F8A92", "name": "vent", "material": "grille", "castShadow": false },
+      { "kind": "box", "size": [440, 18, 480], "offset": { "x": 0, "y": 1741, "z": 0 }, "color": "#6F8A92", "name": "vent-top", "material": "grille", "castShadow": false },
+      { "kind": "box", "size": [200, 120, 12], "offset": { "x": 0, "y": 1500, "z": 280 }, "color": "#7FC8DE", "name": "panel", "material": "emissive", "castShadow": false }
+    ],
+    "defaultAttrs": { "coolingKW": 7 }
+  },
+  {
+    "id": "ac-precision",
+    "name": "精密空调",
+    "category": "ac",
+    "icon": "❄️",
+    "defaultSize": { "w": 1000, "d": 900, "h": 1900 },
+    "geometry": [
+      { "kind": "box", "size": [1000, 1860, 900], "offset": { "x": 0, "y": 930, "z": 0 }, "color": "#BFD4D9", "name": "body", "material": "metal" },
+      { "kind": "box", "size": [900, 40, 800], "offset": { "x": 0, "y": 1880, "z": 0 }, "color": "#6F8A92", "name": "vent", "material": "grille", "castShadow": false },
+      { "kind": "box", "size": [800, 1200, 16], "offset": { "x": 0, "y": 880, "z": 452 }, "color": "#A9C0C7", "name": "panel", "material": "metal", "castShadow": false },
+      { "kind": "box", "size": [140, 18, 10], "offset": { "x": -320, "y": 1560, "z": 462 }, "color": "#7BC47F", "name": "led", "material": "emissive", "castShadow": false },
+      { "kind": "box", "size": [860, 160, 12], "offset": { "x": 0, "y": 120, "z": 454 }, "color": "#6F8A92", "name": "vent-low", "material": "grille", "castShadow": false },
+      { "kind": "box", "size": [880, 900, 20], "offset": { "x": 0, "y": 900, "z": 460 }, "color": "#8FA8B0", "name": "filter", "material": "grille", "lod": "near", "castShadow": false },
+      { "kind": "cylinder", "size": [160, 30], "offset": { "x": -260, "y": 1885, "z": 0 }, "color": "#55636A", "name": "fan-1", "material": "matte", "lod": "near", "castShadow": false },
+      { "kind": "cylinder", "size": [160, 30], "offset": { "x": 260, "y": 1885, "z": 0 }, "color": "#55636A", "name": "fan-2", "material": "matte", "lod": "near", "castShadow": false },
+      { "kind": "box", "size": [200, 60, 8], "offset": { "x": 260, "y": 1560, "z": 462 }, "color": "#7FC8DE", "name": "display", "material": "emissive", "lod": "near", "castShadow": false }
+    ],
+    "defaultAttrs": { "coolingKW": 50 }
+  },
+  {
+    "id": "furniture-workstation",
+    "name": "员工工位",
+    "category": "furniture",
+    "icon": "🪑",
+    "defaultSize": { "w": 1200, "d": 600, "h": 750 },
+    "geometry": [
+      { "kind": "box", "size": [1200, 30, 600], "offset": { "x": 0, "y": 735, "z": 0 }, "color": "#E9E5EC", "name": "top", "material": "matte", "castShadow": false },
+      { "kind": "box", "size": [40, 720, 40], "offset": { "x": -560, "y": 360, "z": -260 }, "color": "#9C95AE", "name": "leg-l", "material": "metal", "castShadow": false },
+      { "kind": "box", "size": [40, 720, 40], "offset": { "x": 560, "y": 360, "z": -260 }, "color": "#9C95AE", "name": "leg-r", "material": "metal", "castShadow": false },
+      { "kind": "box", "size": [40, 720, 40], "offset": { "x": -560, "y": 360, "z": 260 }, "color": "#9C95AE", "name": "leg-lb", "material": "metal", "castShadow": false },
+      { "kind": "box", "size": [40, 720, 40], "offset": { "x": 560, "y": 360, "z": 260 }, "color": "#9C95AE", "name": "leg-rb", "material": "metal", "castShadow": false },
+      { "kind": "box", "size": [1120, 400, 16], "offset": { "x": 0, "y": 520, "z": -292 }, "color": "#C9C2D2", "name": "modesty", "material": "matte", "castShadow": false }
+    ],
+    "defaultAttrs": {}
+  },
+  {
+    "id": "furniture-meeting-table",
+    "name": "会议桌",
+    "category": "furniture",
+    "icon": "🪑",
+    "defaultSize": { "w": 2400, "d": 1200, "h": 750 },
+    "geometry": [
+      { "kind": "box", "size": [2400, 40, 1200], "offset": { "x": 0, "y": 730, "z": 0 }, "color": "#DCD5E1", "name": "top", "material": "matte" },
+      { "kind": "box", "size": [200, 710, 800], "offset": { "x": -900, "y": 355, "z": 0 }, "color": "#9C95AE", "name": "base-l", "material": "metal", "castShadow": false },
+      { "kind": "box", "size": [200, 710, 800], "offset": { "x": 900, "y": 355, "z": 0 }, "color": "#9C95AE", "name": "base-r", "material": "metal", "castShadow": false },
+      { "kind": "box", "size": [200, 20, 120], "offset": { "x": 0, "y": 750, "z": 0 }, "color": "#585266", "name": "cable-box", "material": "metal", "castShadow": false }
+    ],
+    "defaultAttrs": {}
+  },
+  {
+    "id": "furniture-console",
+    "name": "操控台",
+    "category": "furniture",
+    "icon": "🎛️",
+    "defaultSize": { "w": 1200, "d": 800, "h": 1200 },
+    "geometry": [
+      { "kind": "box", "size": [1200, 800, 800], "offset": { "x": 0, "y": 400, "z": 0 }, "color": "#D3C9BF", "name": "base", "material": "matte" },
+      { "kind": "box", "size": [1200, 400, 500], "offset": { "x": 0, "y": 1000, "z": 100 }, "color": "#C9BEB2", "name": "panel", "material": "matte" },
+      { "kind": "plane", "size": [500, 300], "offset": { "x": 0, "y": 1030, "z": 355 }, "color": "#2A4A6B", "name": "screen", "material": "emissive", "castShadow": false }
+    ],
+    "defaultAttrs": {}
+  },
+  {
+    "id": "furniture-file-cabinet",
+    "name": "文件柜",
+    "category": "furniture",
+    "icon": "🗄️",
+    "defaultSize": { "w": 900, "d": 450, "h": 1850 },
+    "geometry": [
+      { "kind": "box", "size": [900, 1830, 450], "offset": { "x": 0, "y": 935, "z": 0 }, "color": "#D8CDC3", "name": "body", "material": "metal" },
+      { "kind": "box", "size": [900, 20, 450], "offset": { "x": 0, "y": 10, "z": 0 }, "color": "#4A4458", "name": "foot", "material": "rubber", "castShadow": false },
+      { "kind": "box", "size": [860, 420, 16], "offset": { "x": 0, "y": 1620, "z": 225 }, "color": "#C4BAB0", "name": "drawer-1", "material": "metal", "castShadow": false },
+      { "kind": "box", "size": [860, 420, 16], "offset": { "x": 0, "y": 1180, "z": 225 }, "color": "#C4BAB0", "name": "drawer-2", "material": "metal", "castShadow": false },
+      { "kind": "box", "size": [860, 420, 16], "offset": { "x": 0, "y": 740, "z": 225 }, "color": "#C4BAB0", "name": "drawer-3", "material": "metal", "castShadow": false },
+      { "kind": "box", "size": [120, 20, 30], "offset": { "x": 0, "y": 1620, "z": 248 }, "color": "#585266", "name": "handle-1", "material": "matte", "castShadow": false },
+      { "kind": "box", "size": [120, 20, 30], "offset": { "x": 0, "y": 1180, "z": 248 }, "color": "#585266", "name": "handle-2", "material": "matte", "castShadow": false },
+      { "kind": "box", "size": [120, 20, 30], "offset": { "x": 0, "y": 740, "z": 248 }, "color": "#585266", "name": "handle-3", "material": "matte", "castShadow": false }
+    ],
+    "defaultAttrs": {}
+  },
+  {
+    "id": "furniture-coffee-table",
+    "name": "茶几",
+    "category": "furniture",
+    "icon": "☕",
+    "defaultSize": { "w": 1200, "d": 600, "h": 450 },
+    "geometry": [
+      { "kind": "box", "size": [1200, 30, 600], "offset": { "x": 0, "y": 435, "z": 0 }, "color": "#DCD5E1", "name": "top", "material": "matte", "castShadow": false },
+      { "kind": "box", "size": [40, 420, 40], "offset": { "x": -560, "y": 210, "z": -260 }, "color": "#9C95AE", "name": "leg-l", "material": "metal", "castShadow": false },
+      { "kind": "box", "size": [40, 420, 40], "offset": { "x": 560, "y": 210, "z": -260 }, "color": "#9C95AE", "name": "leg-r", "material": "metal", "castShadow": false },
+      { "kind": "box", "size": [40, 420, 40], "offset": { "x": -560, "y": 210, "z": 260 }, "color": "#9C95AE", "name": "leg-lb", "material": "metal", "castShadow": false },
+      { "kind": "box", "size": [40, 420, 40], "offset": { "x": 560, "y": 210, "z": 260 }, "color": "#9C95AE", "name": "leg-rb", "material": "metal", "castShadow": false }
+    ],
+    "defaultAttrs": {}
+  },
+  {
+    "id": "furniture-sofa",
+    "name": "沙发",
+    "category": "furniture",
+    "icon": "🛋️",
+    "defaultSize": { "w": 2000, "d": 900, "h": 850 },
+    "geometry": [
+      { "kind": "box", "size": [2000, 400, 900], "offset": { "x": 0, "y": 200, "z": 0 }, "color": "#C9BEB2", "name": "seat", "material": "matte" },
+      { "kind": "box", "size": [2000, 450, 150], "offset": { "x": 0, "y": 625, "z": -375 }, "color": "#B9AC9D", "name": "back", "material": "matte", "castShadow": false },
+      { "kind": "box", "size": [150, 300, 900], "offset": { "x": -925, "y": 550, "z": 0 }, "color": "#B9AC9D", "name": "arm-l", "material": "matte", "castShadow": false },
+      { "kind": "box", "size": [150, 300, 900], "offset": { "x": 925, "y": 550, "z": 0 }, "color": "#B9AC9D", "name": "arm-r", "material": "matte", "castShadow": false },
+      { "kind": "box", "size": [1800, 60, 800], "offset": { "x": 0, "y": 30, "z": 0 }, "color": "#585266", "name": "base", "material": "rubber", "castShadow": false }
+    ],
+    "defaultAttrs": {}
+  },
+  {
+    "id": "other-gas-spray",
+    "name": "气体灭火喷头",
+    "category": "fire",
+    "icon": "💨",
+    "defaultSize": { "w": 150, "d": 150, "h": 150 },
+    "geometry": [
+      { "kind": "box", "size": [150, 150, 150], "offset": { "x": 0, "y": 75, "z": 0 }, "color": "#E0DDE3", "name": "frame", "material": "metal", "castShadow": false },
+      { "kind": "cylinder", "size": [40, 80], "offset": { "x": -30, "y": 75, "z": 0 }, "color": "#7FC87F", "name": "bottle-1", "material": "matte", "castShadow": false },
+      { "kind": "cylinder", "size": [40, 80], "offset": { "x": 30, "y": 75, "z": 0 }, "color": "#7FC87F", "name": "bottle-2", "material": "matte", "castShadow": false },
+      { "kind": "box", "size": [100, 20, 30], "offset": { "x": 0, "y": 130, "z": 0 }, "color": "#585266", "name": "valve-bar", "material": "metal", "castShadow": false }
+    ],
+    "defaultAttrs": {}
+  },
+  {
+    "id": "other-smoke",
+    "name": "烟感探测器",
+    "category": "fire",
+    "icon": "🔔",
+    "defaultSize": { "w": 100, "d": 100, "h": 40 },
+    "geometry": [
+      { "kind": "cylinder", "size": [50, 20], "offset": { "x": 0, "y": 3570, "z": 0 }, "color": "#E0DDE3", "name": "base", "material": "matte", "anchor": "absolute", "castShadow": false },
+      { "kind": "sphere", "size": [22], "offset": { "x": 0, "y": 3550, "z": 0 }, "color": "#D8D5DE", "name": "dome", "material": "matte", "anchor": "absolute", "castShadow": false },
+      { "kind": "cylinder", "size": [6, 4], "offset": { "x": 0, "y": 3526, "z": 0 }, "color": "#FF6B6B", "name": "led", "material": "emissive", "anchor": "absolute", "castShadow": false }
+    ],
+    "defaultAttrs": {}
+  },
+  {
+    "id": "fire-sprinkler",
+    "name": "喷淋",
+    "category": "fire",
+    "icon": "💧",
+    "defaultSize": { "w": 100, "d": 100, "h": 120 },
+    "geometry": [
+      { "kind": "cylinder", "size": [50, 20], "offset": { "x": 0, "y": 3570, "z": 0 }, "color": "#C9C2D2", "name": "plate", "material": "metal", "anchor": "absolute", "castShadow": false },
+      { "kind": "cylinder", "size": [12, 60], "offset": { "x": 0, "y": 3510, "z": 0 }, "color": "#9C95AE", "name": "pipe", "material": "metal", "anchor": "absolute", "castShadow": false },
+      { "kind": "cone", "size": [40, 50], "offset": { "x": 0, "y": 3465, "z": 0 }, "color": "#D8D5DE", "name": "deflector", "material": "matte", "anchor": "absolute", "castShadow": false }
+    ],
+    "defaultAttrs": {}
+  },
+  {
+    "id": "fire-gas-cabinet",
+    "name": "七氟丙烷柜",
+    "category": "fire",
+    "icon": "🧯",
+    "defaultSize": { "w": 800, "d": 800, "h": 2000 },
+    "geometry": [
+      { "kind": "box", "size": [800, 2000, 800], "offset": { "x": 0, "y": 1000, "z": 0 }, "color": "#E0CDCD", "name": "frame", "material": "metal" },
+      { "kind": "cylinder", "size": [120, 1600], "offset": { "x": -200, "y": 900, "z": 0 }, "color": "#7FC87F", "name": "bottle-1", "material": "matte", "castShadow": false },
+      { "kind": "cylinder", "size": [120, 1600], "offset": { "x": 0, "y": 900, "z": 0 }, "color": "#7FC87F", "name": "bottle-2", "material": "matte", "castShadow": false },
+      { "kind": "cylinder", "size": [120, 1600], "offset": { "x": 200, "y": 900, "z": 0 }, "color": "#7FC87F", "name": "bottle-3", "material": "matte", "castShadow": false },
+      { "kind": "box", "size": [600, 60, 100], "offset": { "x": 0, "y": 1800, "z": 0 }, "color": "#585266", "name": "valve-bar", "material": "metal", "castShadow": false }
+    ],
+    "defaultAttrs": {}
+  },
+  {
+    "id": "fire-extinguisher",
+    "name": "灭火器",
+    "category": "fire",
+    "icon": "🧯",
+    "defaultSize": { "w": 150, "d": 150, "h": 550 },
+    "geometry": [
+      { "kind": "cylinder", "size": [75, 460], "offset": { "x": 0, "y": 250, "z": 0 }, "color": "#C25B5B", "name": "bottle", "material": "matte", "castShadow": false },
+      { "kind": "cylinder", "size": [30, 40], "offset": { "x": 0, "y": 500, "z": 0 }, "color": "#9C95AE", "name": "valve", "material": "metal", "castShadow": false },
+      { "kind": "cylinder", "size": [12, 30], "offset": { "x": 0, "y": 535, "z": 0 }, "color": "#585266", "name": "handle", "material": "metal", "castShadow": false }
+    ],
+    "defaultAttrs": {}
+  },
+  {
+    "id": "fire-sign",
+    "name": "指示牌",
+    "category": "fire",
+    "icon": "🪧",
+    "defaultSize": { "w": 400, "d": 60, "h": 200 },
+    "geometry": [
+      { "kind": "plane", "size": [400, 200], "offset": { "x": 0, "y": 2200, "z": 12 }, "color": "#D2DFD2", "name": "panel", "material": "emissive", "anchor": "absolute", "castShadow": false },
+      { "kind": "box", "size": [420, 220, 60], "offset": { "x": 0, "y": 2200, "z": -20 }, "color": "#9C95AE", "name": "frame", "material": "metal", "anchor": "absolute", "castShadow": false },
+      { "kind": "box", "size": [40, 40, 80], "offset": { "x": 0, "y": 2320, "z": -40 }, "color": "#585266", "name": "bracket", "material": "metal", "anchor": "absolute", "castShadow": false }
+    ],
+    "defaultAttrs": {}
+  },
+  {
+    "id": "fire-emergency-light",
+    "name": "应急灯",
+    "category": "fire",
+    "icon": "💡",
+    "defaultSize": { "w": 300, "d": 120, "h": 100 },
+    "geometry": [
+      { "kind": "box", "size": [120, 80, 100], "offset": { "x": 0, "y": 2200, "z": 0 }, "color": "#EAE0E4", "name": "body", "material": "matte", "anchor": "absolute", "castShadow": false },
+      { "kind": "plane", "size": [60, 40], "offset": { "x": -100, "y": 2210, "z": 20 }, "color": "#F1ECE4", "name": "lamp-l", "material": "emissive", "anchor": "absolute", "castShadow": false },
+      { "kind": "plane", "size": [60, 40], "offset": { "x": 100, "y": 2210, "z": 20 }, "color": "#F1ECE4", "name": "lamp-r", "material": "emissive", "anchor": "absolute", "castShadow": false }
+    ],
+    "defaultAttrs": {}
+  },
+  {
+    "id": "power-dist",
+    "name": "落地式配电柜",
+    "category": "electrical",
+    "icon": "⚡",
+    "defaultSize": { "w": 800, "d": 600, "h": 2000 },
+    "geometry": [
+      { "kind": "box", "size": [800, 2000, 600], "offset": { "x": 0, "y": 1000, "z": 0 }, "color": "#D9CFC6", "name": "body", "material": "metal" },
+      { "kind": "box", "size": [760, 1900, 16], "offset": { "x": 0, "y": 1000, "z": 300 }, "color": "#C4BAB0", "name": "door", "material": "metal", "castShadow": false },
+      { "kind": "box", "size": [24, 160, 40], "offset": { "x": 340, "y": 1000, "z": 320 }, "color": "#585266", "name": "handle", "material": "metal", "castShadow": false },
+      { "kind": "box", "size": [120, 120, 12], "offset": { "x": 0, "y": 1700, "z": 310 }, "color": "#7FC8DE", "name": "meter", "material": "emissive", "castShadow": false },
+      { "kind": "box", "size": [700, 100, 10], "offset": { "x": 0, "y": 100, "z": 305 }, "color": "#4A4458", "name": "vent-bottom", "material": "grille", "castShadow": false },
+      { "kind": "box", "size": [780, 50, 580], "offset": { "x": 0, "y": 25, "z": 0 }, "color": "#585266", "name": "base", "material": "rubber", "castShadow": false }
+    ],
+    "defaultAttrs": { "capacityKW": 125 }
+  },
+  {
+    "id": "electrical-dist-wall",
+    "name": "壁挂式配电柜",
+    "category": "electrical",
+    "icon": "⚡",
+    "defaultSize": { "w": 400, "d": 200, "h": 600 },
+    "geometry": [
+      { "kind": "box", "size": [400, 600, 200], "offset": { "x": 0, "y": 1500, "z": 0 }, "color": "#D3C9BF", "name": "body", "material": "metal", "anchor": "absolute", "castShadow": false },
+      { "kind": "box", "size": [360, 560, 16], "offset": { "x": 0, "y": 1500, "z": 100 }, "color": "#C4BAB0", "name": "door", "material": "metal", "anchor": "absolute", "castShadow": false },
+      { "kind": "box", "size": [16, 80, 24], "offset": { "x": 150, "y": 1500, "z": 120 }, "color": "#585266", "name": "handle", "material": "metal", "anchor": "absolute", "castShadow": false },
+      { "kind": "box", "size": [100, 40, 8], "offset": { "x": 0, "y": 1720, "z": 108 }, "color": "#E0DDE3", "name": "label", "material": "matte", "anchor": "absolute", "castShadow": false }
+    ],
+    "defaultAttrs": { "capacityKW": 10 }
+  },
+  {
+    "id": "electrical-panel-light",
+    "name": "格栅灯",
+    "category": "electrical",
+    "icon": "💡",
+    "defaultSize": { "w": 600, "d": 600, "h": 100 },
+    "geometry": [
+      { "kind": "box", "size": [600, 20, 600], "offset": { "x": 0, "y": 3575, "z": 0 }, "color": "#C9C2D2", "name": "frame", "material": "metal", "anchor": "absolute", "castShadow": false },
+      { "kind": "box", "size": [560, 60, 20], "offset": { "x": 0, "y": 3525, "z": -200 }, "color": "#E0DDE3", "name": "grille-1", "material": "metal", "anchor": "absolute", "castShadow": false },
+      { "kind": "box", "size": [560, 60, 20], "offset": { "x": 0, "y": 3525, "z": -100 }, "color": "#E0DDE3", "name": "grille-2", "material": "metal", "anchor": "absolute", "castShadow": false },
+      { "kind": "box", "size": [560, 60, 20], "offset": { "x": 0, "y": 3525, "z": 0 }, "color": "#E0DDE3", "name": "grille-3", "material": "metal", "anchor": "absolute", "castShadow": false },
+      { "kind": "box", "size": [560, 60, 20], "offset": { "x": 0, "y": 3525, "z": 100 }, "color": "#E0DDE3", "name": "grille-4", "material": "metal", "anchor": "absolute", "castShadow": false },
+      { "kind": "box", "size": [560, 60, 20], "offset": { "x": 0, "y": 3525, "z": 200 }, "color": "#E0DDE3", "name": "grille-5", "material": "metal", "anchor": "absolute", "castShadow": false },
+      { "kind": "box", "size": [20, 60, 560], "offset": { "x": 0, "y": 3525, "z": 0 }, "color": "#E0DDE3", "name": "grille-cross", "material": "metal", "anchor": "absolute", "castShadow": false },
+      { "kind": "box", "size": [540, 6, 540], "offset": { "x": 0, "y": 3488, "z": 0 }, "color": "#F1ECE4", "name": "diffuser", "material": "emissive", "anchor": "absolute", "castShadow": false }
+    ],
+    "defaultAttrs": { "powerW": 36 }
+  },
+  {
+    "id": "electrical-light-switch",
+    "name": "灯开关",
+    "category": "electrical",
+    "icon": "🔘",
+    "defaultSize": { "w": 86, "d": 30, "h": 86 },
+    "geometry": [
+      { "kind": "box", "size": [86, 86, 12], "offset": { "x": 0, "y": 1300, "z": 0 }, "color": "#E0DDE3", "name": "plate", "material": "matte", "anchor": "absolute", "castShadow": false },
+      { "kind": "sphere", "size": [12], "offset": { "x": 0, "y": 1300, "z": 8 }, "color": "#9C95AE", "name": "button", "material": "metal", "anchor": "absolute", "castShadow": false },
+      { "kind": "box", "size": [8, 4, 4], "offset": { "x": 0, "y": 1320, "z": 6 }, "color": "#7FC87F", "name": "led", "material": "emissive", "anchor": "absolute", "castShadow": false }
+    ],
+    "defaultAttrs": {}
+  },
+  {
+    "id": "electrical-tray-trough",
+    "name": "槽式桥架",
+    "category": "electrical",
+    "icon": "➰",
+    "defaultSize": { "w": 300, "d": 3000, "h": 100 },
+    "geometry": [
+      { "kind": "box", "size": [300, 10, 3000], "offset": { "x": 0, "y": 3300, "z": 0 }, "color": "#8A8494", "name": "bottom", "material": "matte", "anchor": "absolute", "castShadow": false },
+      { "kind": "box", "size": [10, 100, 3000], "offset": { "x": -145, "y": 3350, "z": 0 }, "color": "#BFB9C1", "name": "side-l", "material": "metal", "anchor": "absolute", "castShadow": false },
+      { "kind": "box", "size": [10, 100, 3000], "offset": { "x": 145, "y": 3350, "z": 0 }, "color": "#BFB9C1", "name": "side-r", "material": "metal", "anchor": "absolute", "castShadow": false },
+      { "kind": "box", "size": [300, 6, 3000], "offset": { "x": 0, "y": 3400, "z": 0 }, "color": "#D8D5DE", "name": "cover", "material": "metal", "anchor": "absolute", "castShadow": false }
+    ],
+    "defaultAttrs": { "lengthMM": 3000 }
+  },
+  {
+    "id": "electrical-tray-mesh",
+    "name": "网格桥架",
+    "category": "electrical",
+    "icon": "➰",
+    "defaultSize": { "w": 300, "d": 3000, "h": 100 },
+    "geometry": [
+      { "kind": "box", "size": [300, 8, 3000], "offset": { "x": 0, "y": 3300, "z": 0 }, "color": "#8A8494", "name": "bottom", "material": "matte", "anchor": "absolute", "castShadow": false },
+      { "kind": "box", "size": [8, 100, 3000], "offset": { "x": -146, "y": 3350, "z": 0 }, "color": "#C4BFC6", "name": "side-l", "material": "metal", "anchor": "absolute", "castShadow": false },
+      { "kind": "box", "size": [8, 100, 3000], "offset": { "x": 146, "y": 3350, "z": 0 }, "color": "#C4BFC6", "name": "side-r", "material": "metal", "anchor": "absolute", "castShadow": false },
+      { "kind": "box", "size": [284, 6, 20], "offset": { "x": 0, "y": 3304, "z": -1000 }, "color": "#B4BCC6", "name": "rung-1", "material": "metal", "anchor": "absolute", "castShadow": false },
+      { "kind": "box", "size": [284, 6, 20], "offset": { "x": 0, "y": 3304, "z": 0 }, "color": "#B4BCC6", "name": "rung-2", "material": "metal", "anchor": "absolute", "castShadow": false },
+      { "kind": "box", "size": [284, 6, 20], "offset": { "x": 0, "y": 3304, "z": 1000 }, "color": "#B4BCC6", "name": "rung-3", "material": "metal", "anchor": "absolute", "castShadow": false }
+    ],
+    "defaultAttrs": { "lengthMM": 3000 }
+  },
+  {
+    "id": "rack-modular",
+    "name": "模块化机房",
+    "category": "rack",
+    "icon": "🏗️",
+    "defaultSize": { "w": 1200, "d": 1200, "h": 2400 },
+    "geometry": [
+      { "kind": "box", "size": [1200, 2300, 1160], "offset": { "x": 0, "y": 1250, "z": 0 }, "color": "#D3DAE0", "name": "cover", "material": "matte" },
+      { "kind": "box", "size": [1200, 100, 1200], "offset": { "x": 0, "y": 50, "z": 0 }, "color": "#9BA5B0", "name": "plinth", "material": "metal" },
+      { "kind": "box", "size": [40, 2280, 1180], "offset": { "x": -580, "y": 1260, "z": 0 }, "color": "#B4BCC6", "name": "end-w", "material": "metal" },
+      { "kind": "box", "size": [40, 2280, 1180], "offset": { "x": 580, "y": 1260, "z": 0 }, "color": "#B4BCC6", "name": "end-e", "material": "metal" },
+      { "kind": "box", "size": [1200, 40, 1180], "offset": { "x": 0, "y": 2380, "z": 0 }, "color": "#B4BCC6", "name": "roof", "material": "metal", "castShadow": false },
+      { "kind": "box", "size": [500, 1880, 26], "offset": { "x": -300, "y": 1060, "z": 588 }, "color": "#D9E3EA", "name": "door", "material": "glass", "castShadow": false },
+      { "kind": "box", "size": [500, 1880, 26], "offset": { "x": 300, "y": 1060, "z": 588 }, "color": "#D9E3EA", "name": "door-2", "material": "glass", "castShadow": false }
+    ],
+    "defaultAttrs": { "moduleCount": 2, "doubleRow": true }
+  },
+  {
+    "id": "rack-glass",
+    "name": "玻璃门机柜",
+    "category": "rack",
+    "icon": "🗄️",
+    "defaultSize": { "w": 600, "d": 1000, "h": 2000 },
+    "geometry": [
+      { "kind": "box", "size": [600, 1940, 960], "offset": { "x": 0, "y": 1030, "z": -20 }, "color": "#D9E5E9", "name": "body", "material": "metal" },
+      { "kind": "box", "size": [580, 1880, 30], "offset": { "x": 0, "y": 1030, "z": 475 }, "color": "#BCCAD2", "name": "frame", "material": "metal", "castShadow": false },
+      { "kind": "box", "size": [520, 1800, 12], "offset": { "x": 0, "y": 1030, "z": 494 }, "color": "#D9E3EA", "name": "glass", "material": "glass", "castShadow": false },
+      { "kind": "box", "size": [26, 300, 26], "offset": { "x": 232, "y": 1030, "z": 508 }, "color": "#4A4458", "name": "handle", "material": "rubber", "castShadow": false },
+      { "kind": "box", "size": [520, 14, 10], "offset": { "x": 0, "y": 1985, "z": 470 }, "color": "#7BC47F", "name": "led", "material": "emissive", "castShadow": false },
+      { "kind": "box", "size": [560, 50, 900], "offset": { "x": 0, "y": 25, "z": 0 }, "color": "#4A4458", "name": "foot", "material": "rubber", "castShadow": false },
+      { "kind": "box", "size": [40, 120, 14], "offset": { "x": -240, "y": 1030, "z": 502 }, "color": "#9C95AE", "name": "lock", "material": "metal", "lod": "near", "castShadow": false },
+      { "kind": "box", "size": [480, 8, 5], "offset": { "x": 0, "y": 500, "z": 490 }, "color": "#8E88A0", "name": "u-strip-1", "material": "metal", "lod": "near", "castShadow": false },
+      { "kind": "box", "size": [480, 8, 5], "offset": { "x": 0, "y": 900, "z": 490 }, "color": "#8E88A0", "name": "u-strip-2", "material": "metal", "lod": "near", "castShadow": false },
+      { "kind": "box", "size": [480, 8, 5], "offset": { "x": 0, "y": 1300, "z": 490 }, "color": "#8E88A0", "name": "u-strip-3", "material": "metal", "lod": "near", "castShadow": false },
+      { "kind": "box", "size": [500, 44, 6], "offset": { "x": 0, "y": 700, "z": 488 }, "color": "#3D3846", "name": "device-1", "material": "metal", "lod": "near", "castShadow": false },
+      { "kind": "box", "size": [500, 44, 6], "offset": { "x": 0, "y": 1100, "z": 488 }, "color": "#3D3846", "name": "device-2", "material": "metal", "lod": "near", "castShadow": false }
+    ],
+    "defaultAttrs": { "ratedPowerW": 8000 },
+    "uSlots": 42
+  },
+  {
+    "id": "rack-mesh",
+    "name": "网门机柜",
+    "category": "rack",
+    "icon": "🗄️",
+    "defaultSize": { "w": 600, "d": 1000, "h": 2000 },
+    "geometry": [
+      { "kind": "box", "size": [600, 1940, 960], "offset": { "x": 0, "y": 1030, "z": -20 }, "color": "#C6C2D0", "name": "body", "material": "metal" },
+      { "kind": "box", "size": [556, 1856, 10], "offset": { "x": 0, "y": 1020, "z": 494 }, "color": "#6E6883", "name": "vent", "material": "grille", "castShadow": false },
+      { "kind": "box", "size": [30, 1900, 30], "offset": { "x": -285, "y": 1010, "z": 470 }, "color": "#A9A3B8", "name": "rail-l", "material": "metal", "castShadow": false },
+      { "kind": "box", "size": [30, 1900, 30], "offset": { "x": 285, "y": 1010, "z": 470 }, "color": "#A9A3B8", "name": "rail-r", "material": "metal", "castShadow": false },
+      { "kind": "box", "size": [520, 14, 10], "offset": { "x": 0, "y": 1985, "z": 500 }, "color": "#7BC47F", "name": "led", "material": "emissive", "castShadow": false },
+      { "kind": "box", "size": [500, 8, 5], "offset": { "x": 0, "y": 450, "z": 496 }, "color": "#8E88A0", "name": "u-strip-1", "material": "metal", "lod": "near", "castShadow": false },
+      { "kind": "box", "size": [500, 8, 5], "offset": { "x": 0, "y": 950, "z": 496 }, "color": "#8E88A0", "name": "u-strip-2", "material": "metal", "lod": "near", "castShadow": false },
+      { "kind": "box", "size": [500, 8, 5], "offset": { "x": 0, "y": 1450, "z": 496 }, "color": "#8E88A0", "name": "u-strip-3", "material": "metal", "lod": "near", "castShadow": false },
+      { "kind": "box", "size": [480, 44, 6], "offset": { "x": 0, "y": 700, "z": 494 }, "color": "#3D3846", "name": "device-1", "material": "metal", "lod": "near", "castShadow": false },
+      { "kind": "box", "size": [480, 44, 6], "offset": { "x": 0, "y": 1200, "z": 494 }, "color": "#3D3846", "name": "device-2", "material": "metal", "lod": "near", "castShadow": false }
+    ],
+    "defaultAttrs": { "ratedPowerW": 8000 },
+    "uSlots": 42
+  },
+  {
+    "id": "power-ups",
+    "name": "UPS",
+    "category": "smart",
+    "icon": "🛡️",
+    "defaultSize": { "w": 600, "d": 1000, "h": 2000 },
+    "geometry": [
+      { "kind": "box", "size": [600, 1960, 1000], "offset": { "x": 0, "y": 1020, "z": 0 }, "color": "#CFC4B8", "name": "body", "material": "metal" },
+      { "kind": "box", "size": [560, 40, 960], "offset": { "x": 0, "y": 20, "z": 0 }, "color": "#585266", "name": "foot", "material": "rubber", "castShadow": false },
+      { "kind": "box", "size": [260, 160, 14], "offset": { "x": 0, "y": 1600, "z": 500 }, "color": "#7FC8DE", "name": "screen", "material": "emissive", "castShadow": false },
+      { "kind": "box", "size": [520, 320, 10], "offset": { "x": 0, "y": 320, "z": 504 }, "color": "#6E6883", "name": "vent", "material": "grille", "castShadow": false },
+      { "kind": "box", "size": [10, 10, 4], "offset": { "x": -160, "y": 1600, "z": 508 }, "color": "#7BC47F", "name": "led-2", "material": "emissive", "lod": "near", "castShadow": false },
+      { "kind": "box", "size": [10, 10, 4], "offset": { "x": -140, "y": 1600, "z": 508 }, "color": "#F2B84B", "name": "led-3", "material": "emissive", "lod": "near", "castShadow": false },
+      { "kind": "box", "size": [300, 80, 12], "offset": { "x": 0, "y": 800, "z": 502 }, "color": "#585266", "name": "port-strip", "material": "rubber", "lod": "near", "castShadow": false },
+      { "kind": "box", "size": [520, 8, 6], "offset": { "x": 0, "y": 220, "z": 508 }, "color": "#8E88A0", "name": "vent-slat-1", "material": "metal", "lod": "near", "castShadow": false },
+      { "kind": "box", "size": [520, 8, 6], "offset": { "x": 0, "y": 420, "z": 508 }, "color": "#8E88A0", "name": "vent-slat-2", "material": "metal", "lod": "near", "castShadow": false }
+    ],
+    "defaultAttrs": { "capacityKVA": 100 }
+  },
+  {
+    "id": "power-battery",
+    "name": "电池柜",
+    "category": "smart",
+    "icon": "🔋",
+    "defaultSize": { "w": 600, "d": 600, "h": 2000 },
+    "geometry": [
+      { "kind": "box", "size": [600, 2000, 600], "offset": { "x": 0, "y": 1000, "z": 0 }, "color": "#C9BEB2", "name": "body", "material": "metal" },
+      { "kind": "box", "size": [560, 1900, 16], "offset": { "x": 0, "y": 1000, "z": 300 }, "color": "#B9AC9D", "name": "door", "material": "metal", "castShadow": false },
+      { "kind": "box", "size": [20, 120, 30], "offset": { "x": 240, "y": 1000, "z": 320 }, "color": "#585266", "name": "handle", "material": "metal", "castShadow": false },
+      { "kind": "box", "size": [480, 1600, 400], "offset": { "x": 0, "y": 900, "z": 0 }, "color": "#4A4458", "name": "battery-stack", "material": "matte", "castShadow": false },
+      { "kind": "box", "size": [60, 40, 60], "offset": { "x": 0, "y": 1800, "z": 0 }, "color": "#9C95AE", "name": "terminal", "material": "metal", "castShadow": false }
+    ],
+    "defaultAttrs": { "capacityKWH": 20 }
+  },
+  {
+    "id": "other-camera",
+    "name": "监控摄像头",
+    "category": "smart",
+    "icon": "📷",
+    "defaultSize": { "w": 120, "d": 80, "h": 80 },
+    "geometry": [
+      { "kind": "box", "size": [120, 80, 80], "offset": { "x": 0, "y": 40, "z": 0 }, "color": "#D8D5DE", "name": "body", "material": "matte", "castShadow": false },
+      { "kind": "sphere", "size": [25], "offset": { "x": 0, "y": 40, "z": 50 }, "color": "#3D3846", "name": "lens", "material": "glass", "castShadow": false },
+      { "kind": "box", "size": [30, 40, 30], "offset": { "x": 0, "y": 70, "z": -30 }, "color": "#9C95AE", "name": "bracket", "material": "metal", "castShadow": false }
+    ],
+    "defaultAttrs": {}
+  },
+  {
+    "id": "other-access",
+    "name": "IC卡门禁",
+    "category": "smart",
+    "icon": "🪪",
+    "defaultSize": { "w": 80, "d": 35, "h": 20 },
+    "geometry": [
+      { "kind": "box", "size": [80, 20, 35], "offset": { "x": 0, "y": 1300, "z": 0 }, "color": "#E0DDE3", "name": "body", "material": "matte", "anchor": "absolute", "castShadow": false },
+      { "kind": "plane", "size": [60, 14], "offset": { "x": 0, "y": 1300, "z": 18 }, "color": "#4A7FBF", "name": "screen", "material": "emissive", "anchor": "absolute", "castShadow": false },
+      { "kind": "box", "size": [8, 4, 4], "offset": { "x": 0, "y": 1308, "z": 18 }, "color": "#7FC87F", "name": "led", "material": "emissive", "anchor": "absolute", "castShadow": false }
+    ],
+    "defaultAttrs": {}
+  },
+  {
+    "id": "camera-dome",
+    "name": "半球摄像机",
+    "category": "smart",
+    "icon": "📷",
+    "defaultSize": { "w": 150, "d": 150, "h": 120 },
+    "geometry": [
+      { "kind": "cylinder", "size": [75, 30], "offset": { "x": 0, "y": 3565, "z": 0 }, "color": "#D8D5DE", "name": "base", "material": "matte", "anchor": "absolute", "castShadow": false },
+      { "kind": "sphere", "size": [45], "offset": { "x": 0, "y": 3535, "z": 0 }, "color": "#EAE0E4", "name": "dome", "material": "glass", "anchor": "absolute", "castShadow": false },
+      { "kind": "sphere", "size": [18], "offset": { "x": 0, "y": 3520, "z": 0 }, "color": "#3D3846", "name": "lens", "material": "metal", "anchor": "absolute", "castShadow": false }
+    ],
+    "defaultAttrs": {}
+  },
+  {
+    "id": "camera-bullet",
+    "name": "枪式摄像机",
+    "category": "smart",
+    "icon": "📷",
+    "defaultSize": { "w": 200, "d": 120, "h": 100 },
+    "geometry": [
+      { "kind": "box", "size": [160, 80, 100], "offset": { "x": 0, "y": 2800, "z": 0 }, "color": "#D8D5DE", "name": "body", "material": "matte", "anchor": "absolute", "castShadow": false },
+      { "kind": "cylinder", "size": [30, 40], "offset": { "x": 80, "y": 2800, "z": 0 }, "color": "#3D3846", "name": "lens", "material": "metal", "anchor": "absolute", "castShadow": false },
+      { "kind": "sphere", "size": [25], "offset": { "x": 108, "y": 2800, "z": 0 }, "color": "#2A2A3E", "name": "lens-glass", "material": "glass", "anchor": "absolute", "castShadow": false },
+      { "kind": "box", "size": [30, 60, 30], "offset": { "x": -65, "y": 2850, "z": 0 }, "color": "#9C95AE", "name": "bracket", "material": "metal", "anchor": "absolute", "castShadow": false }
+    ],
+    "defaultAttrs": {}
+  },
+  {
+    "id": "camera-ptz",
+    "name": "球形摄像机",
+    "category": "smart",
+    "icon": "📷",
+    "defaultSize": { "w": 150, "d": 150, "h": 180 },
+    "geometry": [
+      { "kind": "cylinder", "size": [60, 40], "offset": { "x": 0, "y": 2880, "z": 0 }, "color": "#9C95AE", "name": "base", "material": "metal", "anchor": "absolute", "castShadow": false },
+      { "kind": "sphere", "size": [65], "offset": { "x": 0, "y": 2800, "z": 0 }, "color": "#EAE0E4", "name": "ball", "material": "glass", "anchor": "absolute", "castShadow": false },
+      { "kind": "box", "size": [30, 60, 30], "offset": { "x": 0, "y": 2860, "z": 0 }, "color": "#585266", "name": "arm", "material": "metal", "anchor": "absolute", "castShadow": false },
+      { "kind": "sphere", "size": [22], "offset": { "x": 0, "y": 2795, "z": 20 }, "color": "#3D3846", "name": "lens", "material": "metal", "anchor": "absolute", "castShadow": false }
+    ],
+    "defaultAttrs": {}
+  },
+  {
+    "id": "smart-water-rope",
+    "name": "水浸探测绳",
+    "category": "smart",
+    "icon": "🪢",
+    "defaultSize": { "w": 50, "d": 3000, "h": 50 },
+    "geometry": [
+      { "kind": "box", "size": [20, 20, 3000], "offset": { "x": 0, "y": 30, "z": 0 }, "color": "#C3D3D9", "name": "cable", "material": "matte", "castShadow": false },
+      { "kind": "cylinder", "size": [25, 50], "offset": { "x": 0, "y": 25, "z": -1460 }, "color": "#585266", "name": "probe", "material": "rubber", "castShadow": false }
+    ],
+    "defaultAttrs": { "lengthMM": 3000 }
+  },
+  {
+    "id": "smart-temp-sensor",
+    "name": "温度传感器",
+    "category": "smart",
+    "icon": "🌡️",
+    "defaultSize": { "w": 80, "d": 50, "h": 60 },
+    "geometry": [
+      { "kind": "box", "size": [80, 60, 40], "offset": { "x": 0, "y": 1500, "z": 0 }, "color": "#E0DDE3", "name": "body", "material": "matte", "anchor": "absolute", "castShadow": false },
+      { "kind": "cylinder", "size": [10, 30], "offset": { "x": 0, "y": 1500, "z": 35 }, "color": "#9C95AE", "name": "probe", "material": "metal", "anchor": "absolute", "castShadow": false },
+      { "kind": "box", "size": [8, 8, 4], "offset": { "x": 30, "y": 1520, "z": 22 }, "color": "#7FC87F", "name": "led", "material": "emissive", "anchor": "absolute", "castShadow": false }
+    ],
+    "defaultAttrs": {}
+  },
+  {
+    "id": "access-face",
+    "name": "人脸门禁",
+    "category": "smart",
+    "icon": "🪪",
+    "defaultSize": { "w": 150, "d": 60, "h": 350 },
+    "geometry": [
+      { "kind": "box", "size": [150, 320, 40], "offset": { "x": 0, "y": 1300, "z": 0 }, "color": "#D8D5DE", "name": "body", "material": "matte", "anchor": "absolute", "castShadow": false },
+      { "kind": "box", "size": [120, 240, 8], "offset": { "x": 0, "y": 1340, "z": 24 }, "color": "#3D3846", "name": "screen", "material": "emissive", "anchor": "absolute", "castShadow": false },
+      { "kind": "cylinder", "size": [12, 10], "offset": { "x": 0, "y": 1450, "z": 32 }, "color": "#3D3846", "name": "camera", "material": "metal", "anchor": "absolute", "castShadow": false },
+      { "kind": "box", "size": [40, 40, 60], "offset": { "x": 0, "y": 1200, "z": -30 }, "color": "#9C95AE", "name": "bracket", "material": "metal", "anchor": "absolute", "castShadow": false }
+    ],
+    "defaultAttrs": {}
+  },
+  {
+    "id": "smart-data-wall",
+    "name": "数据大屏",
+    "category": "smart",
+    "icon": "🖥️",
+    "defaultSize": { "w": 3000, "d": 150, "h": 1800 },
+    "geometry": [
+      { "kind": "box", "size": [3000, 1800, 150], "offset": { "x": 0, "y": 900, "z": 0 }, "color": "#3D3846", "name": "frame", "material": "metal" },
+      { "kind": "plane", "size": [2920, 1720], "offset": { "x": 0, "y": 900, "z": 80 }, "color": "#1A1A2E", "name": "screen", "material": "emissive", "castShadow": false },
+      { "kind": "box", "size": [8, 1720, 8], "offset": { "x": -730, "y": 900, "z": 83 }, "color": "#0D0D18", "name": "seam-v-1", "material": "matte", "castShadow": false },
+      { "kind": "box", "size": [8, 1720, 8], "offset": { "x": 0, "y": 900, "z": 83 }, "color": "#0D0D18", "name": "seam-v-2", "material": "matte", "castShadow": false },
+      { "kind": "box", "size": [8, 1720, 8], "offset": { "x": 730, "y": 900, "z": 83 }, "color": "#0D0D18", "name": "seam-v-3", "material": "matte", "castShadow": false },
+      { "kind": "box", "size": [2920, 8, 8], "offset": { "x": 0, "y": 470, "z": 83 }, "color": "#0D0D18", "name": "seam-h-1", "material": "matte", "castShadow": false },
+      { "kind": "box", "size": [2920, 8, 8], "offset": { "x": 0, "y": 900, "z": 83 }, "color": "#0D0D18", "name": "seam-h-2", "material": "matte", "castShadow": false },
+      { "kind": "box", "size": [2920, 8, 8], "offset": { "x": 0, "y": 1330, "z": 83 }, "color": "#0D0D18", "name": "seam-h-3", "material": "matte", "castShadow": false }
+    ],
+    "defaultAttrs": {}
+  },
+  {
+    "id": "smart-tv",
+    "name": "液晶电视",
+    "category": "smart",
+    "icon": "📺",
+    "defaultSize": { "w": 1200, "d": 80, "h": 700 },
+    "geometry": [
+      { "kind": "box", "size": [1200, 700, 40], "offset": { "x": 0, "y": 1300, "z": 0 }, "color": "#3D3846", "name": "frame", "material": "metal", "anchor": "absolute", "castShadow": false },
+      { "kind": "plane", "size": [1160, 660], "offset": { "x": 0, "y": 1300, "z": 24 }, "color": "#1A1A2E", "name": "screen", "material": "emissive", "anchor": "absolute", "castShadow": false },
+      { "kind": "box", "size": [400, 40, 70], "offset": { "x": 0, "y": 940, "z": 0 }, "color": "#585266", "name": "stand", "material": "metal", "castShadow": false }
+    ],
+    "defaultAttrs": {}
+  }
+]

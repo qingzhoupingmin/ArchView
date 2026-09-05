@@ -1,0 +1,132 @@
+/* ============ 性能基线页 /fps（S2.0d / T3.6） ============
+   颜色 / 间距 / 圆角 / 阴影 / 层级一律引用 @archview/theme 的 CSS 变量（开发计划 §6 DoD）。 */
+
+.fps-page {
+  position: fixed;
+  inset: 0;
+  background: var(--color-bg);
+}
+
+.fps-viewport {
+  position: absolute;
+  inset: 0;
+}
+
+.fps-panel {
+  position: absolute;
+  top: var(--space-3);
+  left: var(--space-3);
+  z-index: var(--z-hud);
+  /* 9 列（含 v3.7 的「档位」列）+ 一排操作按钮，520px 会把表挤成横向滚动 */
+  width: 660px;
+  max-width: calc(100vw - 24px);
+  max-height: calc(100vh - 24px);
+  overflow: auto;
+  padding: var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-card);
+  font-size: var(--text-sm);
+  line-height: 1.55;
+}
+
+
+.fps-panel h1 {
+  margin: 0 0 var(--space-2);
+  font-size: var(--text-base);
+}
+
+.fps-scenarios {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin: var(--space-3) 0;
+}
+
+/* 报告操作区（v3.7）：跑完四档 / 复制 Markdown / 下载 CSV / 清空 */
+.fps-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin: var(--space-2) 0 var(--space-3);
+}
+
+
+.fps-live {
+  margin: var(--space-2) 0;
+  color: var(--color-text-muted);
+  font-size: var(--text-xs);
+}
+
+.fps-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: var(--space-2);
+  font-size: var(--text-xs);
+}
+
+.fps-table th,
+.fps-table td {
+  padding: 4px 6px;
+  border-bottom: 1px solid var(--color-border);
+  text-align: right;
+  white-space: nowrap;
+}
+
+/* 场景名与档位是文字列，左读；其余数字列右对齐才方便逐列比大小 */
+.fps-table th:first-child,
+.fps-table td:first-child,
+.fps-table th:nth-child(2),
+.fps-table td:nth-child(2) {
+  text-align: left;
+}
+
+/* 档位串（合批 on · 阴影 off · 细节 far）退成次要色，别压过数值 */
+.fps-table td.fps-mode {
+  color: var(--color-text-muted);
+  white-space: normal;
+}
+
+
+.fps-pass {
+  color: var(--color-success);
+  font-weight: 600;
+}
+
+.fps-fail {
+  color: var(--color-error);
+  font-weight: 600;
+}
+
+.fps-ref {
+  color: var(--color-text-muted);
+}
+
+.fps-note {
+  margin: var(--space-3) 0 var(--space-2);
+  color: var(--color-text-muted);
+  font-size: var(--text-xs);
+}
+
+/* SOP 里的 URL 参数要能一眼看清边界（& 与 = 混在中文里极易看漏） */
+.fps-note code {
+  padding: 1px 4px;
+  border-radius: var(--radius-sm);
+  background: var(--color-surface-alt);
+  color: var(--color-text);
+  font-size: 0.95em;
+  white-space: nowrap;
+}
+
+
+.fps-back {
+  display: inline-block;
+  font-size: var(--text-xs);
+  color: var(--color-primary-deep);
+  text-decoration: none;
+}
+
+.fps-back:hover {
+  text-decoration: underline;
+}

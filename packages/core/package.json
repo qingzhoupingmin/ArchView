@@ -1,0 +1,16 @@
+{
+  "name": "@archview/core",
+  "version": "0.0.1",
+  "private": true,
+  "description": "领域层（纯 TS，零 three.js 依赖）：Document / ComponentType / Component / Command / 撤销重做 / RBAC 权限点",
+  "main": "dist/index.js",
+  "module": "src/index.ts",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "typescript": "~5.6.3"
+  }
+}

@@ -1,0 +1,1354 @@
+/* ============ 页面层：工程列表 / 管理中心 / 个人中心（P1 重构） ============
+   登录页样式独立在 login.css；居中占位页（工程加载失败 / 无权限）在 layout.css 的 .center-page。
+   尺寸 / 间距 / 圆角 / 层级一律引用 @archview/theme token。 */
+
+/* ---------- 工程列表 / 工作台（T1.5，登录后首页 · P4 大屏桌面化） ---------- */
+.ws-page {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: var(--color-bg);
+}
+
+/* P4：① 宽度上限 1280 → --content-max-width-wide(1680)，1920 屏两侧各留 120px 呼吸，
+        不再是 320px 纯背景真空；
+      ② 内边距改 --page-pad-x 随视口生长；
+      ③ 改为 flex 列 + 指南卡 margin-top:auto 沉底，
+        解决「内容堆在上半屏、下半屏整片空白」。 */
+.ws-main {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+  flex-direction: column;
+  width: 100%;
+  max-width: var(--content-max-width-wide);
+  margin: 0 auto;
+  padding: var(--page-pad-y) var(--page-pad-x);
+  overflow: auto;
+}
+
+/* ---------- 页头条（P4：原 .ws-toolbar 只有标题 + 两个控件，撑不起大屏页面入口） ---------- */
+.ws-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  gap: var(--space-4) var(--space-5);
+  flex: none;
+  margin-bottom: var(--space-5);
+  padding: var(--space-4) var(--space-5);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-soft);
+}
+.ws-title {
+  margin: 0;
+  font-size: var(--text-2xl);
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: 0.2px;
+}
+/* 环境统计：桌面软件页头该有的「我现在在哪、有多少东西」，替代原先一句孤零零的标题 */
+.ws-hero-sub {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+  margin: 6px 0 0;
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+}
+.ws-hero-sub svg {
+  color: var(--color-primary);
+}
+.ws-hero-sep {
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: var(--color-border-strong);
+}
+.ws-hero-tools {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+.ws-search-wrap {
+  position: relative;
+  display: block;
+  width: 260px;
+}
+.ws-search-icon {
+  position: absolute;
+  top: 50%;
+  left: 10px;
+  transform: translateY(-50%);
+  color: var(--color-text-muted);
+  pointer-events: none;
+}
+.ws-search {
+  width: 100%;
+  padding-left: 30px;
+}
+.ws-sort {
+  flex: none;
+  width: 140px;
+}
+.ws-create {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  flex: none;
+  height: 34px;
+}
+
+/* ---------- 工程卡片网格（P4：补封面区 + 创建时间，治「卡片像个空盒子」） ---------- */
+.ws-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(var(--card-min-width), 1fr));
+  gap: var(--grid-gap);
+  align-content: start;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.ws-item {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  cursor: pointer;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease,
+    transform 0.15s ease;
+}
+.ws-item:hover {
+  border-color: var(--color-primary-soft);
+  box-shadow: var(--shadow-card);
+  transform: translateY(-2px);
+}
+/* 封面：品牌渐变 + 等轴网格底纹 + 立方体线稿。
+   底纹色一律用 color-mix() 从既有 token 派生——不往 tokens.css :root 里塞新 hex，
+   否则会触发 tokens.test.ts「CSS 色变量必须有 TS 镜像」的同源契约失败。 */
+.ws-item-cover {
+  position: relative;
+  display: grid;
+  place-items: center;
+  flex: none;
+  height: 128px;
+  background: var(--brand-gradient);
+  border-bottom: 1px solid var(--color-border);
+}
+.ws-item-cover::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(
+      to right,
+      color-mix(in srgb, var(--color-primary) 12%, transparent) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      to bottom,
+      color-mix(in srgb, var(--color-primary) 12%, transparent) 1px,
+      transparent 1px
+    );
+  background-size: 22px 22px;
+  opacity: 0.55;
+}
+.ws-item-cover-art {
+  position: relative;
+  color: var(--color-primary-hover);
+  transition:
+    color 0.15s ease,
+    transform 0.15s ease;
+}
+.ws-item:hover .ws-item-cover-art {
+  color: var(--color-primary-deep);
+  transform: scale(1.06);
+}
+.ws-item-tag {
+  position: absolute;
+  top: var(--space-2);
+  right: var(--space-2);
+}
+.ws-item-body {
+  flex: 1;
+  min-width: 0;
+  padding: var(--space-4) var(--space-4) var(--space-3);
+}
+.ws-item-name {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-size: var(--text-lg);
+  font-weight: 600;
+}
+.ws-item-meta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 6px;
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+}
+/* 归属徽标（数据隔离专项·批次 B）：超管「全部工程」列表里标出这是谁的工程；
+   长昵称要能省略号收口，不能把「更新于…」时间挤出卡片 */
+.ws-item-owner {
+  max-width: 220px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* 脚注：左创建时间常驻、右操作按钮 hover 才显形（P3 的降噪思路保留，
+   但底色分离出独立区，卡片高度不再靠按钮撑） */
+.ws-item-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  flex: none;
+  min-height: 40px;
+  padding: var(--space-2) var(--space-4);
+  border-top: 1px solid var(--color-border);
+  background: var(--color-surface-alt);
+}
+.ws-item-since {
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+}
+.ws-item-actions {
+  display: flex;
+  gap: var(--space-1);
+  flex: none;
+  margin-left: auto;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+.ws-item:hover .ws-item-actions,
+.ws-item:focus .ws-item-actions,
+.ws-item:focus-within .ws-item-actions {
+  opacity: 1;
+}
+/* 尊重「减少动效」偏好：取消淡入过渡（显隐逻辑不变） */
+@media (prefers-reduced-motion: reduce) {
+  .ws-item-actions {
+    transition: none;
+  }
+  .ws-item,
+  .ws-item-cover-art {
+    transition: none;
+  }
+  /* 空态线稿：生长与选中呼吸一并关掉，线稿以终态直接呈现 */
+  .ws-empty-art-bar {
+    animation: none;
+  }
+}
+@media (hover: none) {
+  .ws-item-actions {
+    opacity: 1;
+  }
+}
+
+/* ---------- 空态（P4：居中一坨 → 左右分栏 + 纯 CSS 平面线稿） ----------
+   大屏下「一个小孤岛漂在整屏空白里」是原空态最刺眼的问题，
+   这里让空态吃掉剩余高度，左说明右线稿，视觉重心回到页面中央。 */
+.ws-empty {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 420px);
+  align-items: center;
+  gap: var(--space-6) var(--space-7);
+  flex: 1;
+  min-height: 320px;
+  padding: var(--space-6) clamp(24px, 4vw, 64px);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  background: var(--color-surface);
+  text-align: left;
+}
+/* 加载态复用了 .ws-empty 但只有一个 spinner，必须退回单列居中，否则右侧插画列空转 */
+.ws-empty-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  min-height: 240px;
+  color: var(--color-text-muted);
+  text-align: center;
+}
+.ws-empty-copy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-3);
+  min-width: 0;
+}
+.ws-empty-icon {
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  border-radius: var(--radius-xl);
+  background: var(--color-primary-soft);
+  color: var(--color-primary-hover);
+}
+.ws-empty-title {
+  margin: 0;
+  font-size: var(--text-xl);
+  color: var(--color-text);
+  font-weight: 600;
+}
+.ws-empty-desc {
+  margin: 0;
+  max-width: 520px;
+  font-size: var(--text-base);
+  line-height: 1.75;
+  color: var(--color-text-muted);
+}
+.ws-empty-actions {
+  display: flex;
+  gap: var(--space-2);
+  margin-top: var(--space-2);
+  flex-wrap: wrap;
+}
+.ws-empty-actions .btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  height: 34px;
+}
+/* ---------- 空态右侧平面线稿（与登录页 .login-lines 同源的一套语言） ----------
+   一条地平线 + 一条标高虚线 + 一条楼层线 + 八根不等高竖线，其中一根取 --vp-selection
+   作「选中」。纯 2D 直线：不画等轴、不画具象物件，不指向任何行业。
+   治的四件事：
+   ① 线全部转中性灰紫（--vp-*），与白底拉开明度层次——原密集网格经 primary 14% × opacity
+      0.5 后有效浓度仅约 7%，在白底上几乎不可见（§10.2 原则 3「空间参照必须与背景拉开」）；
+   ② 粉色只留一根且语义即「选中」，守 §10.2 原则 1——原实现网格 / 边框 / 填充全是粉，
+      强调色被当成底色用，反而没有重点；
+   ③ 去掉四周描边 + 圆角 + overflow:hidden + --brand-gradient 底，不再把线稿封成
+      一张「挂图的空画框」，让它直接坐在 .ws-empty 白卡上（同登录页「不铺独立底色」）；
+      只保留一条 border-bottom 当地平线；
+   ④ 固定高度贴地，不再 align-self:stretch 被拉成 420×600 高瘦竖砖、上半截整片空白。
+   取色全走 --vp-* / color-mix(--color-text)，暗色模式自动成立，无需额外媒体查询。
+   aria-hidden：纯装饰，不向屏幕阅读器播报。 */
+.ws-empty-art {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  width: 100%;
+  max-width: 420px;
+  height: 180px;
+  /* 地平线：与视口地面描边同一支色，给整组竖线一个「坐在上面」的基准 */
+  border-bottom: 1px solid color-mix(in srgb, var(--vp-horizon) 60%, transparent);
+}
+/* 标高虚线：图纸里那条辅助线，把散落的竖线串成一个整体 */
+.ws-empty-art::before {
+  content: '';
+  position: absolute;
+  top: 22%;
+  left: 0;
+  right: 30%;
+  height: 1px;
+  background: repeating-linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--vp-grid) 75%, transparent) 0 6px,
+    transparent 6px 13px
+  );
+}
+/* 楼层线：一条更淡的实线，读作层间标高——与登录页线稿拉开区分度，仍不具象 */
+.ws-empty-art::after {
+  content: '';
+  position: absolute;
+  top: 56%;
+  left: 18%;
+  right: 0;
+  height: 1px;
+  background: color-mix(in srgb, var(--vp-grid) 30%, transparent);
+}
+/* DOM 顺序即 nth-child 序号（accent 在第 4 位），ProjectsPage 里增删竖线需同步这里的序号 */
+.ws-empty-art-bar {
+  flex: none;
+  width: 1px;
+  background: color-mix(in srgb, var(--color-text) 22%, transparent);
+  transform-origin: bottom center;
+  animation: ws-art-grow 0.5s ease-out both;
+}
+.ws-empty-art-bar:nth-child(1) {
+  height: 26%;
+  animation-delay: 0.1s;
+}
+.ws-empty-art-bar:nth-child(2) {
+  height: 52%;
+  animation-delay: 0.17s;
+}
+.ws-empty-art-bar:nth-child(3) {
+  height: 38%;
+  animation-delay: 0.24s;
+}
+.ws-empty-art-bar:nth-child(4) {
+  height: 74%;
+  animation-delay: 0.31s;
+}
+.ws-empty-art-bar:nth-child(5) {
+  height: 45%;
+  animation-delay: 0.38s;
+}
+.ws-empty-art-bar:nth-child(6) {
+  height: 62%;
+  animation-delay: 0.45s;
+}
+.ws-empty-art-bar:nth-child(7) {
+  height: 33%;
+  animation-delay: 0.52s;
+}
+.ws-empty-art-bar:nth-child(8) {
+  height: 48%;
+  animation-delay: 0.59s;
+}
+/* 选中态：与建模视口、登录页同一支粉，暗示「线也是可被选中的对象」（§10.2 原则 1）。
+   入场生长结束后，光晕持续极缓呼吸——整组线稿里只有被选中的这一根在动。 */
+.ws-empty-art-bar-accent {
+  width: 2px;
+  background: var(--vp-selection);
+  animation:
+    ws-art-grow 0.5s ease-out both,
+    ws-art-breathe 3.6s ease-in-out 0.9s infinite;
+}
+/* 呼吸感：竖线自地平线依次生长出来（配合 .ws-empty-art-bar 的 transform-origin: bottom） */
+@keyframes ws-art-grow {
+  from {
+    opacity: 0;
+    transform: scaleY(0);
+  }
+  to {
+    opacity: 1;
+    transform: scaleY(1);
+  }
+}
+/* 选中光晕的明暗吞吐：3.6s 一循环，幅度收到几乎察觉不到，只为破掉「死图」感 */
+@keyframes ws-art-breathe {
+  0%,
+  100% {
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--vp-selection) 14%, transparent);
+  }
+  50% {
+    box-shadow: 0 0 0 6px color-mix(in srgb, var(--vp-selection) 7%, transparent);
+  }
+}
+
+/* ---------- 上手指南三卡（P4：替代原 .ws-foot 居中虚线框，margin-top:auto 沉底） ---------- */
+.ws-guide {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: var(--grid-gap);
+  flex: none;
+  /* 沉底：工程数少时由它吃掉下半屏真空，而不是留一片背景色 */
+  margin-top: auto;
+  padding-top: var(--space-6);
+}
+.ws-guide-card {
+  padding: var(--space-4) var(--space-5);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+}
+.ws-guide-head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin: 0 0 var(--space-3);
+  font-size: var(--text-base);
+  font-weight: 600;
+}
+.ws-guide-icon {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-md);
+  background: var(--color-primary-soft);
+  color: var(--color-primary-hover);
+}
+.ws-guide-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+.ws-guide-list li {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+.ws-guide kbd {
+  padding: 0 5px;
+  border: 1px solid var(--color-border-strong);
+  border-bottom-width: 2px;
+  border-radius: var(--radius-sm);
+  background: var(--color-surface-alt);
+  color: var(--color-text);
+  font-family: inherit;
+  font-size: 11px;
+  line-height: 16px;
+}
+
+/* 行操作按钮：图标化 + 无障碍标签（原先用 .btn-icon 包中文文字） */
+.row-act {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  height: 26px;
+  padding: 0 var(--space-2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  color: var(--color-text-muted);
+  font-size: var(--text-xs);
+  font-family: inherit;
+  cursor: pointer;
+  transition:
+    color 0.15s ease,
+    border-color 0.15s ease,
+    background 0.15s ease;
+}
+.row-act:hover:not(:disabled) {
+  color: var(--color-primary);
+  border-color: var(--color-primary-soft);
+  background: var(--color-primary-soft);
+}
+/* P3 a11y：原 opacity .45 让整排行操作灰成一片（截图里「禁用 / 降级 / 删除」看着像坏了）。
+   改用「虚线边框 + 弱化底色」表达不可用，文字仍保持可读，与可点态形成结构差异而非仅透明度差异。
+   为什么不能点由按钮上的 title 说明（见 AdminPage / ProjectsPage）。 */
+.row-act:disabled {
+  color: var(--color-text-muted);
+  border-style: dashed;
+  border-color: var(--color-border-strong);
+  background: var(--color-surface-alt);
+  cursor: not-allowed;
+}
+.row-act-danger:hover:not(:disabled) {
+  color: var(--color-error);
+  border-color: var(--color-error-soft);
+  background: var(--color-error-soft);
+}
+
+/* ---------- 管理中心（T1.3 用户管理 FR-U05 · P4 大屏桌面化） ---------- */
+.admin-page {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: var(--color-bg);
+}
+.admin-body {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+}
+/* P4：侧栏从「200px 三条裸文字」加宽到 232px 并配图标准，
+   未上线项的徽章也不再被挤掉 */
+.admin-side {
+  display: flex;
+  flex: none;
+  flex-direction: column;
+  gap: var(--space-3);
+  width: var(--admin-side-width);
+  padding: var(--space-4) var(--space-3);
+  border-right: 1px solid var(--color-border);
+  background: var(--color-surface);
+}
+.admin-side-head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-1) 10px;
+  font-size: var(--text-base);
+  font-weight: 600;
+}
+.admin-side-menu {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 2px;
+}
+.admin-side-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 9px 10px;
+  border: none;
+  border-radius: var(--radius-md);
+  background: transparent;
+  color: var(--color-text);
+  font-size: var(--text-sm);
+  font-family: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    color 0.15s ease,
+    background 0.15s ease;
+}
+.admin-side-icon {
+  flex: none;
+  color: var(--color-text-muted);
+  transition: color 0.15s ease;
+}
+.admin-side-label {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.admin-side-item:hover:not(:disabled) {
+  background: var(--color-surface-alt);
+}
+.admin-side-item.active {
+  background: var(--color-primary-soft);
+  color: var(--color-primary-hover);
+  font-weight: 500;
+}
+.admin-side-item.active .admin-side-icon {
+  color: var(--color-primary);
+}
+/* P1：未上线菜单项给禁用态 + 徽章，避免点了像坏了 */
+.admin-side-item:disabled {
+  color: var(--color-text-muted);
+  cursor: not-allowed;
+  opacity: 0.72;
+}
+.admin-soon {
+  margin-left: auto;
+  padding: 0 6px;
+  border-radius: var(--radius-pill);
+  background: var(--color-surface-alt);
+  color: var(--color-text-muted);
+  font-size: 11px;
+  line-height: 16px;
+  flex: none;
+}
+.admin-side-foot {
+  padding: 0 var(--space-2);
+}
+.admin-side-foot a {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  color: var(--color-text-muted);
+  font-size: var(--text-xs);
+  text-decoration: none;
+}
+.admin-side-foot a:hover {
+  color: var(--color-primary);
+}
+/* P4：主区改为 flex 列，让表格面板吃满剩余高度。
+   原先 1 行用户时表格与页脚「断在半空」，下方 80% 是纯背景。 */
+.admin-main {
+  flex: 1;
+  min-width: 0;
+  overflow: auto;
+  padding: var(--page-pad-y) var(--page-pad-x);
+}
+.admin-body-inner {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-height: 100%;
+  max-width: var(--content-max-width-wide);
+  margin: 0 auto;
+}
+
+/* ---------- KPI 概览条（P4 新增，数值由已加载列表本地派生） ---------- */
+.admin-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(var(--stat-min-width), 1fr));
+  gap: var(--grid-gap);
+  flex: none;
+  margin-bottom: var(--space-4);
+}
+.admin-stat {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-width: 0;
+  padding: var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+}
+.admin-stat-icon {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 34px;
+  height: 34px;
+  border-radius: var(--radius-md);
+  background: var(--color-surface-alt);
+  color: var(--color-text-muted);
+}
+.admin-stat.is-pink .admin-stat-icon {
+  background: var(--color-primary-soft);
+  color: var(--color-primary-hover);
+}
+.admin-stat.is-ok .admin-stat-icon {
+  background: var(--color-success-soft);
+  color: var(--color-success);
+}
+.admin-stat.is-warn .admin-stat-icon {
+  background: var(--color-warning-soft);
+  color: var(--color-warning);
+}
+.admin-stat-text {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+}
+.admin-stat-value {
+  font-size: var(--text-2xl);
+  font-weight: 700;
+  line-height: 1.15;
+}
+.admin-stat-label {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+}
+
+/* ---------- 工具条 ---------- */
+.admin-toolbar {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-3);
+  flex: none;
+  flex-wrap: wrap;
+  margin-bottom: var(--space-4);
+}
+.admin-toolbar-head {
+  min-width: 0;
+}
+.admin-title {
+  margin: 0;
+  font-size: var(--text-2xl);
+  font-weight: 600;
+  line-height: 1.25;
+}
+.admin-sub {
+  margin: 6px 0 0;
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+.admin-toolbar-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+.admin-search-wrap {
+  position: relative;
+  display: block;
+  width: 260px;
+}
+.admin-search-icon {
+  position: absolute;
+  top: 50%;
+  left: 10px;
+  transform: translateY(-50%);
+  color: var(--color-text-muted);
+  pointer-events: none;
+}
+.admin-search {
+  width: 100%;
+  padding-left: 30px;
+}
+.admin-select {
+  flex: none;
+  width: 132px;
+}
+/* 操作日志面板（FR-U09 · 批次 D） */
+.admin-logs .admin-select {
+  width: 176px; /* 动作名较长（如「删除用户（软删）」），沿用 132px 会被截断 */
+}
+.admin-log-detail {
+  margin: var(--space-1) 0 0;
+  padding: var(--space-2);
+  border: 1px dashed var(--color-border);
+  border-radius: var(--radius-sm, 6px);
+  background: var(--color-surface-alt);
+  font-size: var(--text-xs);
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+.admin-create {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  flex: none;
+  height: 34px;
+}
+
+/* ---------- 表格区（P4：撑满剩余高度 + 表头吸顶） ----------
+   作用域限定在 .admin-body-inner 内，避免污染 base.css 的通用 .table-wrap / .data-table。 */
+.admin-body-inner .table-wrap {
+  position: relative;
+  flex: 1;
+  min-height: 220px;
+}
+.admin-body-inner .data-table thead th {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-float);
+}
+/* 空结果提示居中在表格留白区（桌面表格控件的空态惯例），不抢表格的鼠标事件 */
+.admin-no-match {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  color: var(--color-text-muted);
+  pointer-events: none;
+}
+.admin-no-match p {
+  margin: 0;
+}
+.admin-no-match .btn {
+  pointer-events: auto;
+}
+
+/* 表格底部：条数 + 分页（P4：移出滚动容器，flex:none 沉到面板底部） */
+.table-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  flex: none;
+  flex-wrap: wrap;
+  margin-top: var(--space-3);
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--color-border);
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+}
+.pager {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+.pager-info {
+  min-width: 84px;
+  text-align: center;
+}
+
+/* ---------- 未上线占位页（P4：从「左上角两行字」改为居中卡片） ---------- */
+.admin-placeholder {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  padding: var(--space-7) var(--space-5);
+  border: 1px dashed var(--color-border-strong);
+  border-radius: var(--radius-xl);
+  background: var(--color-surface);
+  text-align: center;
+}
+.admin-ph-icon {
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-xl);
+  background: var(--color-primary-soft);
+  color: var(--color-primary-hover);
+}
+
+/* ---------- 个人中心（T1.2 FR-U04 · P4 大屏桌面化：左身份卡 + 右页签面板） ---------- */
+.pf-page {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: var(--color-bg);
+}
+/* P4：--form-max-width(760) 单列 → --content-max-width-wide(1680) 双栏。
+   原先内容只占 2560 屏宽度的 30%，左右各 ~900px 纯背景，是三页里最空的。 */
+.pf-main {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+  flex-direction: column;
+  gap: var(--space-4);
+  width: 100%;
+  max-width: var(--content-max-width-wide);
+  margin: 0 auto;
+  padding: var(--page-pad-y) var(--page-pad-x);
+  overflow: auto;
+}
+.pf-force-banner {
+  flex: none;
+  padding: 10px 14px;
+  border: 1px solid color-mix(in srgb, var(--color-warning) 45%, transparent);
+  border-radius: var(--radius-md);
+  background: var(--color-warning-soft);
+  color: var(--color-text);
+  font-size: var(--text-sm);
+}
+.pf-layout {
+  display: grid;
+  grid-template-columns: var(--profile-side-width) minmax(0, 1fr);
+  gap: var(--grid-gap);
+  align-items: start;
+  flex: 1;
+  min-height: 0;
+}
+
+/* ---------- 左：身份卡 ---------- */
+.pf-idcard {
+  position: sticky;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  min-width: 0;
+  padding: var(--space-5);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-soft);
+}
+.pf-idcard-hero {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  min-width: 0;
+}
+.pf-idcard-who {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.pf-idcard-name {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-size: var(--text-lg);
+  font-weight: 600;
+}
+.pf-idcard-at {
+  margin-top: 2px;
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+}
+.pf-idcard-badges {
+  display: flex;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+  margin-top: calc(var(--space-4) * -1 + var(--space-2));
+}
+.pf-meta {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin: 0;
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--color-border);
+}
+.pf-meta-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-3);
+  font-size: var(--text-sm);
+}
+.pf-meta-row dt {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex: none;
+  color: var(--color-text-muted);
+  font-weight: 400;
+}
+.pf-meta-row dt svg {
+  color: var(--color-primary);
+}
+.pf-meta-row dd {
+  min-width: 0;
+  margin: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.pf-idcard-links {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+.pf-idlink {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 8px 10px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface-alt);
+  color: var(--color-text);
+  font-size: var(--text-sm);
+  text-decoration: none;
+  transition:
+    color 0.15s ease,
+    background 0.15s ease,
+    border-color 0.15s ease;
+}
+.pf-idlink:hover {
+  border-color: var(--color-primary-soft);
+  background: var(--color-primary-soft);
+  color: var(--color-primary-hover);
+}
+.pf-picker {
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--color-border);
+}
+.pf-picker-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  margin-bottom: var(--space-3);
+}
+.pf-picker-label {
+  font-size: var(--text-xs);
+  letter-spacing: 0.4px;
+  color: var(--color-text-muted);
+}
+/* 头像选择器：从 flex-wrap 改 6 列等宽网格，随身份卡宽度自适应 */
+.pf-avatar-grid {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: var(--space-2);
+}
+.pf-avatar-option {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 1;
+  width: 100%;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface-alt);
+  font-size: 18px;
+  cursor: pointer;
+  transition:
+    border-color 0.15s ease,
+    background 0.15s ease,
+    box-shadow 0.15s ease;
+}
+.pf-avatar-option:hover {
+  border-color: var(--color-primary);
+}
+/* 选中态：emoji 选项走 .active，「默认」选项走 aria-pressed，两者等价 */
+.pf-avatar-option.active,
+.pf-avatar-option[aria-pressed='true'] {
+  border-color: var(--color-primary);
+  background: var(--color-primary-soft);
+  box-shadow: 0 0 0 2px var(--color-primary-soft);
+}
+
+/* ---------- 右：页签面板（P4：三张卡纵向堆叠 → 一个撑满高度的面板） ---------- */
+.pf-panel {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  /* 单独 stretch：让面板至少和左侧身份卡等高（内容短时由 .pf-panel-body 的
+     flex:1 吃掉余量）。若把 .pf-layout 整体设成 stretch，身份卡会被拉长且 sticky 失效。 */
+  align-self: stretch;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  background: var(--color-surface);
+}
+.pf-panel-focus {
+  border-color: var(--color-primary);
+  box-shadow: var(--focus-ring);
+}
+.pf-tabs {
+  display: flex;
+  gap: 2px;
+  flex: none;
+  padding: 0 var(--space-4);
+  border-bottom: 1px solid var(--color-border);
+  background: var(--color-surface-alt);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.pf-tabs::-webkit-scrollbar {
+  display: none;
+}
+.pf-tab {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex: none;
+  height: 44px;
+  padding: 0 var(--space-3);
+  border: none;
+  border-bottom: 2px solid transparent;
+  background: transparent;
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+  font-family: inherit;
+  white-space: nowrap;
+  transition:
+    color 0.15s ease,
+    background 0.15s ease,
+    border-color 0.15s ease;
+}
+.pf-tab:hover {
+  color: var(--color-text);
+}
+.pf-tab.active {
+  border-bottom-color: var(--color-primary);
+  background: var(--color-surface);
+  color: var(--color-primary-deep);
+  font-weight: 500;
+}
+/* 强制改密时挂在「修改密码」页签上的提示点 */
+.pf-tab-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-error);
+}
+.pf-panel-body {
+  flex: 1;
+  min-height: 0;
+  padding: var(--space-6) clamp(20px, 2.4vw, 44px);
+  overflow: auto;
+}
+.pf-form {
+  margin: 0;
+}
+.pf-section-title {
+  margin: 0;
+  font-size: var(--text-xl);
+  font-weight: 600;
+}
+.pf-section-desc {
+  max-width: 640px;
+  margin: var(--space-2) 0 var(--space-5);
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+  line-height: 1.7;
+}
+/* 字段网格：auto-fit 而非固定两列——原先 3 个字段配 2 列必然余一个空格子 */
+.pf-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 0 var(--space-5);
+  max-width: 960px;
+}
+.pf-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+  margin-top: var(--space-5);
+}
+/* 偏好设置列表：替代原先「整张卡只有一行字 + 一个按钮」的低性价比版面 */
+.pf-settings {
+  display: flex;
+  flex-direction: column;
+  max-width: 820px;
+  border-top: 1px solid var(--color-border);
+}
+.pf-setting {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+  padding: var(--space-4) 0;
+  border-bottom: 1px solid var(--color-border);
+}
+.pf-setting-text {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 2px;
+}
+.pf-setting-text strong {
+  font-size: var(--text-base);
+  font-weight: 500;
+}
+.pf-setting-act {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  flex: none;
+}
+/* 未上线项：不用 opacity 压暗（会掉对比度），改用弱化标题色表达「暂不可操作」 */
+.pf-setting-soon .pf-setting-text strong {
+  color: var(--color-text-muted);
+  font-weight: 400;
+}
+
+/* ---------- 页面层响应式（P1 建立 · P4 重排为「窄屏退化 + 大屏增强」两族） ---------- */
+
+/* 大屏增强：≥ 1680 放宽内容上限，≥ 2400 再放一档。
+   不加这两档，4K 屏上内容又会缩成中间一条，等于白改。 */
+@media (min-width: 1680px) {
+  .ws-main,
+  .pf-main,
+  .admin-body-inner {
+    max-width: var(--content-max-width-ultra);
+  }
+  .ws-list {
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  }
+  .admin-stats {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  }
+}
+@media (min-width: 2400px) {
+  .ws-item-cover {
+    height: 148px;
+  }
+}
+
+/* 收窄退化 */
+@media (max-width: 1200px) {
+  /* 个人中心双栏 → 单列：身份卡横排在上，元信息并排，头像网格自适应铺满 */
+  .pf-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .pf-idcard {
+    position: static;
+  }
+  .pf-meta {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  }
+  .pf-idcard-links {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+  .pf-idlink {
+    flex: 1 1 auto;
+    justify-content: center;
+  }
+  .pf-avatar-grid {
+    grid-template-columns: repeat(auto-fill, minmax(44px, 1fr));
+  }
+  .pf-panel {
+    min-height: 420px;
+  }
+}
+@media (max-width: 1024px) {
+  .admin-body {
+    flex-direction: column;
+  }
+  .admin-side {
+    flex-direction: row;
+    align-items: center;
+    gap: var(--space-2);
+    width: auto;
+    padding: var(--space-2) var(--space-3);
+    border-right: none;
+    border-bottom: 1px solid var(--color-border);
+    overflow-x: auto;
+  }
+  .admin-side-head {
+    display: none;
+  }
+  .admin-side-menu {
+    flex-direction: row;
+    flex: none;
+  }
+  .admin-side-foot {
+    display: none;
+  }
+  .admin-side-item {
+    white-space: nowrap;
+  }
+  /* 横排时三颗「即将上线」徽章会把菜单挤出横向滚动条，直接收起（title 里仍有说明） */
+  .admin-soon {
+    display: none;
+  }
+  .admin-main {
+    padding: var(--space-4);
+  }
+  /* 单列时主区不再撑满整屏高度，改由表格自身最小高度兜底 */
+  .admin-body-inner {
+    min-height: 0;
+  }
+  .admin-body-inner .table-wrap {
+    min-height: 260px;
+  }
+  /* 空态转单列：线稿不再整块砍掉（原 display:none 会让窄屏空态彻底裸奔），
+     收到 120px 高、靠左排在文案下方，八根竖线由 space-between 自适应变密 */
+  .ws-empty {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .ws-empty-art {
+    height: 120px;
+    justify-self: start;
+  }
+}
+@media (max-width: 900px) {
+  /* 页头条两列 → 单列堆叠，工具行占满宽度 */
+  .ws-hero {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .ws-hero-tools {
+    width: 100%;
+  }
+  .ws-search-wrap {
+    flex: 1 1 200px;
+    width: auto;
+  }
+}
+@media (max-width: 760px) {
+  .ws-search-wrap,
+  .admin-search-wrap {
+    width: 100%;
+  }
+  .ws-hero-tools > *,
+  .admin-toolbar-actions > * {
+    flex: 1 1 100%;
+  }
+  .ws-create,
+  .admin-create {
+    justify-content: center;
+  }
+  .pf-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .pf-tabs {
+    padding: 0 var(--space-2);
+  }
+  .pf-panel-body {
+    padding: var(--space-5) var(--space-4);
+  }
+}

@@ -1,0 +1,51 @@
+# 依赖
+node_modules/
+
+# 构建产物
+dist/
+.turbo/
+*.tsbuildinfo
+
+# 环境变量（通配所有变体，防 .env.production 等漏网）
+.env
+.env.*
+!.env.example
+
+# 数据（SQLite 文件库）：
+# - /data/        仓库根（早期开发产物）
+# - packages/data/ API 测试运行产物（DATABASE_URL 相对 cwd=packages/api 解析）
+# 注意勿用裸 data/，会误伤 packages/component-lib/data/（组件库与示例工程数据是源码，须入库）
+/data/
+packages/data/
+
+# 测试 / 覆盖率
+coverage/
+playwright-report/
+test-results/
+
+# 部署临时文件
+.tmp/
+
+# 杂项
+*.log
+.DS_Store
+Thumbs.db
+
+# SQLite 安全网（主目录已由 /data/ 与 packages/data/ 覆盖，此处防临时库误提交）
+*.db
+*.db-journal
+*.sqlite
+*.sqlite3
+
+# 备份 / 回滚产物
+*.bak
+*.old.rolling/
+
+# 编辑器 / IDE
+.vscode/
+.idea/
+
+# 内部工作文档（开源仓库不收录，公开口径以 README.md 为准）
+/产品文档.md
+/开发计划.md
+/架构说明-模块拆分.md

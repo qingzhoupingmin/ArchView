@@ -1,0 +1,18 @@
+{
+  "name": "@archview/component-lib",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "description": "ArchView 内置组件类型定义（纯 JSON + 几何描述，产品文档 §6.5 预置 53 项）与标准机房样例",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@archview/core": "workspace:*"
+  },
+  "devDependencies": {
+    "typescript": "~5.6.3"
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "name": "@archview/web",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "description": "ArchView 主应用（Vite + React + three.js，粉白风格）",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview --port 4173",
+    "typecheck": "tsc --noEmit",
+    "pretypecheck": "pnpm --filter @archview/core build"
+  },
+  "dependencies": {
+    "@archview/component-lib": "workspace:*",
+    "@archview/core": "workspace:*",
+    "@archview/io": "workspace:*",
+    "@archview/renderer": "workspace:*",
+    "@archview/theme": "workspace:*",
+    "@archview/ui": "workspace:*",
+    "i18next": "^23.16.8",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-i18next": "^15.1.2",
+    "react-router-dom": "^6.28.0",
+    "three": "^0.169.0",
+    "zustand": "^4.5.5"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "@types/three": "^0.169.0",
+    "@vitejs/plugin-react": "^4.3.4",
+    "typescript": "~5.6.3",
+    "vite": "^5.4.11"
+  }
+}

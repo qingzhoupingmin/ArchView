@@ -1,0 +1,643 @@
+/* ============ 框架层：主框架 / 顶栏 / 面板容器 / 视口容器 / 状态栏（由 global.css 拆分）============ */
+
+/* ---------- 主框架布局（产品文档 §10.1） ---------- */
+.app-shell {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: var(--color-bg);
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: var(--topbar-height);
+  padding: 0 12px;
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+  flex: none;
+}
+.topbar-brand {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-weight: 600;
+  user-select: none;
+}
+/* 品牌图形「AV 一笔连字」（@archview/ui 的 <BrandMark>，几何真源见 public/favicon.svg）：
+   边长与描边走组件 props，这里只管布局与投影。原 14px 纯粉圆点 + primary-soft 光环退场——
+   那是「选中态」的语义色，不该长期占住品牌位（§10.2 原则 1）。 */
+.brand-mark {
+  display: block;
+  flex: none;
+  filter: drop-shadow(0 1px 2px color-mix(in srgb, var(--color-primary-deep) 28%, transparent));
+}
+.topbar-logo-text {
+  font-size: 15px;
+}
+.topbar-project {
+  font-size: 13px;
+  padding: 2px 10px;
+  border-radius: var(--radius-md);
+  background: var(--color-surface-alt);
+}
+.topbar-save {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--color-text-muted);
+}
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+}
+.dot-saved {
+  background: var(--color-success);
+}
+.topbar-tools {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-left: auto;
+}
+.topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-left: var(--space-4);
+}
+.topbar-divider {
+  width: 1px;
+  height: 18px;
+  background: var(--color-border);
+}
+.topbar-save {
+  margin-left: var(--space-1);
+}
+.topbar-user {
+  position: relative;
+}
+.avatar {
+  /* P5 修「粉圈里的头像漂移不居中」：本类同时挂在 <button>（顶栏 / 页头）与 <span>
+     （管理中心表格 / 个人中心身份卡）上，而原先这里只有尺寸与配色——span 是 inline 元素，
+     width / height 直接失效，圆只能由 border-radius 套在行盒上，字符再被 body 的
+     line-height: 1.5 与字体基线带着跑。居中从此交给 flex，尺寸档只管边长与字号。 */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  vertical-align: middle; /* 与用户名同行排布时按中线对齐，而不是跟着文字基线沉 */
+  flex: none;
+  padding: 0; /* button 档的 UA 内边距会把内容顶偏 */
+  padding-block-start: 0.1em; /* 大写字母在 em 盒里天然偏上（ascent > cap-height），净下移 0.05em 配平；随字号缩放，各尺寸档同比例 */
+  line-height: 1; /* 不吃 body 的 1.5，行盒不再把字符顶出圆心 */
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px solid var(--color-border);
+  background: var(--color-primary-soft);
+  color: var(--color-primary-hover);
+  font-weight: 600;
+  font-size: 14px;
+}
+.avatar:hover {
+  border-color: var(--color-primary);
+}
+
+.menu-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-menu-backdrop);
+}
+.menu {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 8px);
+  z-index: var(--z-menu);
+  min-width: 160px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-soft);
+  padding: 6px;
+}
+.menu-title {
+  padding: 6px 10px;
+  font-size: 12px;
+  color: var(--color-text-muted);
+  border-bottom: 1px solid var(--color-border);
+  margin-bottom: 4px;
+}
+.menu-item {
+  display: block;
+  width: 100%;
+  text-align: left;
+  border: none;
+  background: transparent;
+  border-radius: var(--radius-md);
+  padding: 8px 10px;
+  font-size: 13px;
+  color: var(--color-text);
+}
+.menu-item:hover {
+  background: var(--color-primary-soft);
+  color: var(--color-primary-hover);
+}
+/* 菜单项副标题（T3.4 导出菜单：一行标题 + 一行说明；.menu-item 本身是 block 故直接换行）。
+   hover 态选择器写成 .menu-item:hover .menu-hint（0,2,0）才压得住上面的 .menu-hint——
+   即 §10.2 原则 9「组合类必须算特异度」，登录按钮白底白字那次就是这么栽的。 */
+.menu-hint {
+  display: block;
+  margin-top: 1px;
+  font-size: 11px;
+  color: var(--color-text-muted);
+}
+.menu-item:hover .menu-hint {
+  color: var(--color-primary-deep);
+}
+.menu-item-danger:hover {
+  background: var(--color-error-soft);
+  color: var(--color-error);
+}
+
+/* ---------- 历史列表下拉（T2.4 / FR-M08「历史列表可查」）：复用 .menu 弹层，左锚定、加宽加高 ---------- */
+.topbar-history {
+  position: relative;
+}
+/* 顶栏下拉锚点（导出菜单等新增项用；不叫 topbar-history 是为了语义不掺混） */
+.topbar-menu {
+  position: relative;
+}
+/* 导出与导入菜单（T3.4）：按钮在顶栏左半区，默认右对齐会让弹层溢出到屏幕外，故左锚定 */
+.export-menu {
+  right: auto;
+  left: 0;
+  min-width: 232px;
+}
+.history-menu {
+  right: auto;
+  left: 0;
+  width: 320px;
+}
+.history-empty {
+  color: var(--color-text-muted);
+  pointer-events: none;
+}
+.history-list {
+  list-style: none;
+  margin: 0;
+  padding: 0 2px;
+  max-height: min(420px, 60vh);
+  overflow-y: auto;
+}
+.history-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  padding: 6px 10px;
+  border-radius: var(--radius-sm);
+  font-size: var(--text-xs);
+  color: var(--color-text);
+}
+.history-item.current {
+  background: var(--color-primary-soft);
+  color: var(--color-primary-deep);
+}
+.history-item.undone {
+  color: var(--color-text-muted);
+}
+.history-name {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.history-time {
+  flex: none;
+  color: var(--color-text-muted);
+  font-variant-numeric: tabular-nums;
+}
+.history-item.current .history-time {
+  color: inherit;
+}
+.history-sep {
+  padding: 4px 10px;
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+  border-top: 1px solid var(--color-border);
+  margin-top: 4px;
+}
+
+.app-body {
+  flex: 1;
+  display: flex;
+  min-height: 0;
+}
+
+.app-left,
+.app-right {
+  width: var(--panel-width);
+  flex: none;
+  background: var(--color-surface);
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
+  transition: width 0.18s ease;
+}
+.app-left {
+  border-right: 1px solid var(--color-border);
+}
+.app-right {
+  width: var(--panel-right-width);
+  border-left: 1px solid var(--color-border);
+}
+.app-left.collapsed,
+.app-right.collapsed {
+  width: 0;
+  border: none;
+}
+
+.app-viewport {
+  flex: 1;
+  position: relative;
+  min-width: 0;
+}
+.viewport-placeholder {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    var(--vp-sky-top) 0%,
+    var(--vp-sky-bottom) 60%,
+    var(--vp-ground) 100%
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-muted);
+  font-size: 13px;
+}
+
+.statusbar {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  height: var(--statusbar-height);
+  padding: 0 12px;
+  background: var(--color-surface);
+  border-top: 1px solid var(--color-border);
+  font-size: 12px;
+  color: var(--color-text-muted);
+}
+.statusbar-fps {
+  margin-left: auto;
+}
+
+/* ---------- 视口容器（three.js canvas 挂载点） ---------- */
+.viewport-host {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+.viewport-host canvas {
+  display: block;
+}
+.viewport-2d-tip {
+  position: absolute;
+  top: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 6px 14px;
+  background: var(--color-surface-glass);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-soft);
+  font-size: 12px;
+  color: var(--color-text-muted);
+  pointer-events: none;
+  z-index: var(--z-hud);
+}
+
+/* ---------- 保存状态指示（T1.7 / FR-P01） ---------- */
+.dot-dirty {
+  background: var(--color-warning);
+}
+.dot-saving {
+  background: var(--color-primary);
+  animation: dot-pulse 1s ease-in-out infinite;
+}
+/* 只读指示（数据隔离专项·批次 B）：他人工程（超管凭 project:view-all 打开）对本账号不可写。
+   灰点而非绿点：绿表示「已保存到服务端」，只读态根本没有保存可言，不能误导。 */
+.dot-locked {
+  background: var(--color-text-muted);
+}
+.topbar-readonly {
+  margin-left: var(--space-2);
+  padding: 2px 8px;
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  font-size: 12px;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+}
+
+@keyframes dot-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.35;
+  }
+}
+.topbar-project {
+  /* P4：默认态给一条透明描边——原先只有 background 变化，hover 时盒子会跳 2px；
+     同时让它与 .topbar-back 视觉同重，作为「当前工程 + 可点回列表」的次级入口 */
+  border: 1px solid transparent;
+  cursor: pointer;
+  font-family: inherit;
+  color: var(--color-text);
+  transition:
+    color 0.15s ease,
+    background 0.15s ease,
+    border-color 0.15s ease;
+}
+.topbar-project:hover {
+  border-color: var(--color-primary-soft);
+  background: var(--color-primary-soft);
+  color: var(--color-primary-hover);
+}
+
+/* ---------- 返回工程列表（P4） ----------
+   此前建模页回主界面唯一的入口是工程名标签，它默认态毫无按钮特征，
+   用户找不到回去的路（截图反馈「没有回主界面的按钮」）。
+   这里在最左侧放一个显式按钮，符合桌面软件「返回在左上角」的惯例。 */
+.topbar-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  flex: none;
+  height: 28px;
+  padding: 0 var(--space-2) 0 6px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+  font-family: inherit;
+  transition:
+    color 0.15s ease,
+    background 0.15s ease,
+    border-color 0.15s ease;
+}
+.topbar-back:hover {
+  border-color: var(--color-primary-soft);
+  background: var(--color-primary-soft);
+  color: var(--color-primary-hover);
+}
+/* 窄屏只留箭头，文字让给中间的视图工具组（title / aria-label 已带完整语义） */
+@media (max-width: 900px) {
+  .topbar-back {
+    padding: 0 6px;
+  }
+  .topbar-back span {
+    display: none;
+  }
+}
+
+/* ---------- 居中占位页（P0：原先借 .admin-page + .admin-card 实现，与管理中心语义混用） ---------- */
+.center-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: var(--space-5);
+  background: var(--color-bg);
+}
+.center-card {
+  max-width: 420px;
+  padding: var(--space-6) var(--space-7);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-soft);
+  text-align: center;
+}
+.center-card h2 {
+  margin: 0 0 var(--space-2);
+  font-size: var(--text-lg);
+}
+.center-card p {
+  margin: 0 0 var(--space-4);
+}
+.center-card a,
+.center-card .btn {
+  display: inline-block;
+  color: var(--color-primary);
+}
+
+/* ---------- 应用页头（P1：工程列表 / 个人中心 / 管理中心统一顶栏，原 .ws-header 被三处借用）
+   P4 大屏桌面化：① 高度 48 → --app-header-height(56)，2560 宽的屏上一条 48px 顶栏压不住场；
+   ② 左右内边距改 --page-pad-x 随视口生长；③ 导航从「三个裸文字」升级为分段控件容器，
+   与建模页 .seg 同一套语言；④ 副标题加竖线分隔并在窄屏隐藏，不再把导航挤到横向滚动。 ---------- */
+.app-header {
+  position: relative;
+  z-index: var(--z-menu);
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  flex: none;
+  height: var(--app-header-height);
+  padding: 0 var(--page-pad-x);
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+}
+.app-header-brand {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex: none;
+  font-weight: 600;
+  user-select: none;
+}
+.app-header-brand-name {
+  font-size: var(--text-lg);
+  letter-spacing: 0.2px;
+}
+.app-header-brand-tag {
+  padding-left: var(--space-4);
+  border-left: 1px solid var(--color-border);
+  font-size: var(--text-sm);
+  font-weight: 400;
+  white-space: nowrap;
+}
+.app-header-nav {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  flex: none;
+  padding: 3px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface-alt);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.app-header-nav::-webkit-scrollbar {
+  display: none;
+}
+.app-header-link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex: none;
+  height: 32px;
+  padding: 0 var(--space-4);
+  border: none;
+  border-radius: var(--radius-md);
+  background: transparent;
+  color: var(--color-text-muted);
+  font-size: var(--text-base);
+  font-family: inherit;
+  text-decoration: none;
+  white-space: nowrap;
+  transition:
+    color 0.15s ease,
+    background 0.15s ease,
+    box-shadow 0.15s ease;
+}
+.app-header-link:hover {
+  background: var(--color-surface);
+  color: var(--color-text);
+}
+/* 选中态用深粉而非 --color-primary：白字在 #EC6D9A 上仅 3.1:1，
+   在 --color-primary-deep(#C94672) 上 4.6:1，达 WCAG AA（同 .btn-primary:disabled 的取值思路） */
+.app-header-link.active {
+  background: var(--color-primary-deep);
+  color: var(--color-text-inverse);
+  font-weight: 500;
+  box-shadow: var(--shadow-soft);
+}
+.app-header-link.active:hover {
+  background: var(--color-primary-deep-hover);
+  color: var(--color-text-inverse);
+}
+.app-header-right {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-left: auto;
+}
+
+/* P4：页头随视口收窄——副标题先让位给导航（它挤占的是主导航的横向空间），
+   再往下整体收紧内边距，避免导航出现横向滚动。 */
+@media (max-width: 1280px) {
+  .app-header-brand-tag {
+    display: none;
+  }
+}
+@media (max-width: 900px) {
+  .app-header {
+    gap: var(--space-2);
+    padding: 0 var(--space-3);
+  }
+  .app-header-link {
+    padding: 0 var(--space-3);
+  }
+}
+
+/* ---------- 面板边缘把手（P1：面板折叠后仍可从视口边缘拉回） ---------- */
+.panel-handle {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: var(--z-hud);
+  display: grid;
+  place-items: center;
+  width: 18px;
+  height: 46px;
+  padding: 0;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-text-muted);
+  font-size: var(--text-xs);
+  cursor: pointer;
+  transition:
+    color 0.15s ease,
+    background 0.15s ease,
+    border-color 0.15s ease;
+}
+.panel-handle:hover {
+  background: var(--color-primary-soft);
+  color: var(--color-primary-hover);
+  border-color: var(--color-primary-soft);
+}
+.panel-handle-left {
+  left: 0;
+  border-left: none;
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+}
+.panel-handle-right {
+  right: 0;
+  border-right: none;
+  border-radius: var(--radius-md) 0 0 var(--radius-md);
+}
+
+/* ---------- 状态栏可点击 chip（P2：吸附 / 缩放不再只能靠键盘快捷键） ---------- */
+.statusbar-group {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+.statusbar-sep {
+  width: 1px;
+  height: 14px;
+  background: var(--color-border);
+}
+.sb-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 var(--space-2);
+  border: 1px solid transparent;
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: inherit;
+  font-size: var(--text-xs);
+  font-family: inherit;
+  transition:
+    color 0.15s ease,
+    background 0.15s ease,
+    border-color 0.15s ease;
+}
+.sb-chip:hover {
+  background: var(--color-primary-soft);
+  color: var(--color-primary-hover);
+}
+.sb-chip[aria-pressed='true'] {
+  background: var(--color-primary-soft);
+  color: var(--color-primary-hover);
+  border-color: color-mix(in srgb, var(--color-primary) 30%, transparent);
+}
+.sb-value {
+  min-width: 46px;
+}
+/* 多选计数（T2.7）：主色强调，与属性面板「已选 N 个组件」提示呼应 */
+.sb-selected {
+  color: var(--color-primary-hover);
+  font-weight: 600;
+}
+.sb-fps {
+  margin-left: auto;
+}

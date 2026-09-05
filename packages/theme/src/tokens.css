@@ -1,0 +1,164 @@
+/* ============ ArchView 主题 Token（v1 粉白 · 产品文档 §10.2） ============
+   UI 样式一律引用本文件的 CSS 变量；渲染层视口颜色读取 packages/theme/src/tokens.ts 的
+   TS 镜像常量（同一组值），保证 UI 与 3D 风格统一（设计决策 §8.2-6）。
+   间距 / 圆角 / 阴影 / 层级 / 面板尺寸为 P2 布局优化补齐：新写样式一律引用 token，不要再加魔法数。
+   注：CSS 变量无法用在 @media 条件里，断点值仍需在样式中直接书写。
+   P4 大屏桌面化后统一为两族：
+     · 收窄退化（max-width） 1280 / 1200 / 1024 / 900 / 760 / 640
+     · 大屏增强（min-width） 1680 / 2400  —— 与下面 --content-max-width-wide / -ultra 同值 */
+:root {
+  color-scheme: light;
+
+  /* ---------- 基础色 ---------- */
+  --color-bg: #fdfbfc; /* 页面背景：近白微粉 */
+  --color-surface: #ffffff; /* 面板 / 卡片 */
+  --color-surface-alt: #faf7f9; /* 次级背景（列表行、输入框） */
+  --color-surface-glass: rgba(255, 255, 255, 0.72); /* 毛玻璃底（登录卡片 / 视口 HUD） */
+  --color-overlay: rgba(74, 68, 88, 0.28); /* 弹窗遮罩 */
+
+  /* ---------- 主色（粉） ---------- */
+  --color-primary: #ec6d9a;
+  --color-primary-hover: #e15c8b;
+  --color-primary-soft: #fce4ec; /* 悬停 / 选中浅底 */
+  --color-primary-deep: #c94672; /* 深粉：白字主按钮（WCAG AA ≥ 4.5:1） */
+  --color-primary-deep-hover: #b53a5f;
+  --color-primary-rgb: 236, 109, 154; /* 供 color-mix 不可用时拼 rgba() */
+
+  /* ---------- 文本 ---------- */
+  --color-text: #4a4458;
+  --color-text-muted: #6f6879; /* P2 a11y：白底 12px 小字对比度 5.3:1（AA 达标，原 #9b93a7 仅 3.0:1） */
+  --color-text-inverse: #ffffff;
+
+  /* ---------- 线条与阴影 ---------- */
+  --color-border: #f0e9ef;
+  --color-border-strong: #e4dbe2;
+  --shadow-soft: 0 2px 12px rgba(236, 109, 154, 0.08);
+  --shadow-card: 0 4px 18px rgba(236, 109, 154, 0.1);
+  --shadow-pop: 0 12px 40px rgba(74, 68, 88, 0.16);
+
+  /* ---------- 状态色 ---------- */
+  --color-success: #7bc47f;
+  --color-warning: #f2b84b;
+  --color-error: #e8756a;
+  --color-success-soft: rgba(123, 196, 127, 0.16);
+  --color-warning-soft: rgba(242, 184, 75, 0.18);
+  --color-error-soft: rgba(232, 117, 106, 0.12);
+
+  /* ---------- 视口（tokens.ts 镜像同一组值；暗色模式暂不影响 3D） ----------
+     P3 修正 §10.2 原则 3 的落地偏差：原 sky-bottom #FFF 与 ground #F7F3F6 相对亮度差
+     仅 0.075、grid #E8DFE7 与 ground 差 0.125，导致「地平线 / 网格」在浅色视口里几乎不可见，
+     用户失去空间参照（截图反馈「看着空、不像 3D」）。
+     原则：粉色饱和度不动，只拉开【明度层次】——天空 > 地面 > 次网格 > 主网格 > 地平线。
+     新增 --vp-grid-major（每 5 格主线，给尺度感）与 --vp-horizon（地面描边，让地板有形状）。 */
+  --vp-sky-top: #f2e6ee;
+  --vp-sky-bottom: #fbf7fa;
+  --vp-ground: #e8dee6;
+  --vp-grid: #d2c3d1;
+  --vp-grid-major: #b7a4b8;
+  --vp-horizon: #a99ab0;
+  --vp-selection: #f06292;
+  --vp-component-default: #d8d5de;
+
+  /* ---------- 间距阶梯 ---------- */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+
+  /* ---------- 圆角 ---------- */
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-pill: 999px;
+
+  /* ---------- 字号 ---------- */
+  --text-xs: 12px;
+  --text-sm: 13px;
+  --text-base: 14px;
+  --text-lg: 16px;
+  --text-xl: 20px;
+  --text-2xl: 28px;
+
+  /* ---------- 层级（此前 1/5/40/41/50/51/100 散落各处） ---------- */
+  --z-deco: 0;
+  --z-float: 1;
+  --z-hud: 5;
+  --z-menu-backdrop: 40;
+  --z-menu: 41;
+  --z-dialog-backdrop: 50;
+  --z-dialog: 51;
+  --z-toast: 100;
+
+  /* ---------- 布局尺寸（§10.1） ---------- */
+  --topbar-height: 48px;
+  --statusbar-height: 28px;
+  --panel-width: 280px; /* 左侧组件库 */
+  --panel-right-width: 300px; /* 右侧属性 / 统计（P0：原先硬编码 300px） */
+  --admin-side-width: 232px; /* 管理中心侧栏（P4：200 → 232，菜单要放图标 +「即将上线」徽章） */
+  --login-panel-width: 540px; /* 登录页右侧登录区（P5：480 -> 540，登录卡不贴屏幕右缘） */
+  --login-card-width: 400px;
+
+  /* ---------- P4 大屏桌面化 ----------
+     病灶：1920 / 2560 视口下内容被 1280（个人中心甚至 760）硬封顶，两侧各 300~900px
+     纯背景真空，桌面软件该有的「面板铺满」感全无。以下 token 让宽度与内边距随视口生长。
+     注：只加长度类 token —— :root 主块内每新增一个 6 位 hex 色变量，都必须同步
+     tokens.ts 镜像常量 + HEX_TOKENS 登记表，否则 tokens.test.ts 同源契约直接红。
+     需要新色相一律用 color-mix() 从既有 token 派生，见 pages.css。 */
+  --app-header-height: 56px; /* 应用页头专用；建模页 TopBar 仍用 --topbar-height（被 3D 视口高度计算共用，不动） */
+  --page-pad-x: clamp(
+    20px,
+    2.2vw,
+    56px
+  ); /* 页面左右内边距随视口生长（login.css 已有 clamp 先例） */
+  --page-pad-y: 28px;
+  --content-max-width-wide: 1680px; /* 工程列表 / 管理中心主内容区上限（1280 → 1680） */
+  --content-max-width-ultra: 2100px; /* ≥ 2400 视口再放宽一档，避免 4K 上又缩成中间一条 */
+  --profile-side-width: 320px; /* 个人中心身份卡列宽 */
+  --card-min-width: 320px; /* 工程卡片网格最小列宽（原硬编码 272px，大屏下卡片被拉成空盒） */
+  --stat-min-width: 200px; /* KPI 概览卡最小列宽 */
+  --grid-gap: 20px; /* 卡片 / KPI 网格间距（--space-4 与 --space-5 之间的大屏档） */
+
+  /* ---------- 品牌渐变（登录页 / 空态） ---------- */
+  --brand-gradient: linear-gradient(135deg, #fbe6ef 0%, #ffffff 52%, #fdf3f7 100%);
+  --glass-blur: 14px;
+
+  /* ---------- 焦点环（P3：收口此前散落的 3px / 4px 两种写法） ----------
+     控件自带 ring 时须在 global.css 关掉 :focus-visible 的 outline，避免三层环叠加。 */
+  --focus-ring: 0 0 0 3px var(--color-primary-soft);
+  --focus-ring-lg: 0 0 0 4px var(--color-primary-soft);
+}
+
+/* ---------- 暗色预留（P2）：documentElement 上设 data-theme='dark' 即生效 ----------
+   仅覆盖 UI 层 token；3D 视口颜色由 tokens.ts 常量驱动（切换需渲染层同步改造，排期到 T4.4） */
+:root[data-theme='dark'] {
+  color-scheme: dark;
+
+  --color-bg: #1c1823;
+  --color-surface: #262130;
+  --color-surface-alt: #2e2839;
+  --color-surface-glass: rgba(38, 33, 48, 0.72);
+  --color-overlay: rgba(8, 6, 12, 0.55);
+
+  --color-primary: #f084ab;
+  --color-primary-hover: #f39ab9;
+  --color-primary-soft: rgba(240, 132, 171, 0.18);
+  --color-primary-deep: #ec6d9a;
+  --color-primary-deep-hover: #f084ab;
+  --color-primary-rgb: 240, 132, 171;
+
+  --color-text: #ece8f2;
+  --color-text-muted: #a89fb5;
+  --color-text-inverse: #1c1823;
+
+  --color-border: #38313f;
+  --color-border-strong: #4a4254;
+  --shadow-soft: 0 2px 12px rgba(0, 0, 0, 0.35);
+  --shadow-card: 0 4px 18px rgba(0, 0, 0, 0.4);
+  --shadow-pop: 0 12px 40px rgba(0, 0, 0, 0.55);
+
+  --brand-gradient: linear-gradient(135deg, #2a2030 0%, #1c1823 55%, #241d2b 100%);
+}

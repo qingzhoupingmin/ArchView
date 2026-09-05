@@ -1,0 +1,5 @@
+{
+  "api": {
+    "requestFailed": "请求失败（{{status}}）"
+  }
+}

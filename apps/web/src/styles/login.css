@@ -1,0 +1,455 @@
+﻿/* ============ 登录页（独立路由 /login，产品文档 §10.5） ============
+   布局：整页只有一张浅粉→白的连续渐变（--brand-gradient），左右两列但不做任何分栏隔断——
+        没有竖线、右栏也不铺独立底色，登录卡直接坐在渐变上；
+        左侧品牌区只留「文字 + 线条」：字标、定位语、主标题、一句描述，再加一组
+        纯 CSS 建筑线稿（地平线 + 轴网竖线 + 一条主色选中线），不摆具体功能清单；
+   品牌位是 <BrandMark> 的「AV 一笔连字」字标（同页签 favicon 同源，见 §10.2 品牌）。
+   ≤ 1024px 堆叠为单列（品牌在上、卡片在下），≤ 640px 进一步收紧间距。
+   颜色尺寸一律取自 @archview/theme token。 */
+
+.login-page {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) var(--login-panel-width);
+  height: 100%;
+  overflow: hidden;
+  background: var(--brand-gradient);
+  animation: login-fade-in 0.3s ease-out;
+}
+
+/* ---------- 左侧 · 品牌区 ----------
+   内容整体垂直居中 + 版权绝对沉底：上下留白对称，不用 margin-top:auto 撑出中部真空带。 */
+.login-hero {
+  position: relative;
+  z-index: var(--z-float);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 0;
+  padding: var(--space-7) clamp(40px, 5.5vw, 88px) calc(var(--space-7) + 24px);
+  animation: login-fade-up 0.5s ease-out 0.05s both;
+}
+
+.login-brand {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+.login-logo {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-size: var(--text-xl);
+  font-weight: 700;
+  letter-spacing: 0.3px;
+}
+/* 字标图形本体见 layout.css .brand-mark（尺寸由 <BrandMark size={30}> 给出） */
+.login-brand-tag {
+  margin: 0;
+  font-size: var(--text-sm);
+  letter-spacing: 0.4px;
+  color: var(--color-text-muted);
+}
+
+.login-hero-body {
+  margin-top: var(--space-6);
+  /* P5：560 -> 680——描述句实测算约 592px（34 全角字 @16px + 三组分隔符），
+     560 会把末字「底。」挤成孤行，放宽到整句能坐在一行里 */
+  max-width: 680px;
+}
+.login-hero-title {
+  margin: 0 0 var(--space-4);
+  font-size: clamp(26px, 3.2vw, 38px);
+  line-height: 1.28;
+  font-weight: 700;
+  color: var(--color-text);
+}
+.login-hero-title em {
+  font-style: normal;
+  color: var(--color-primary-deep);
+}
+.login-hero-desc {
+  margin: 0;
+  font-size: var(--text-lg);
+  line-height: 1.75;
+  color: var(--color-text-muted);
+  /* 兜底：窄视口仍被挤成两行时，balance 让两行长度均衡，不再出现单字孤行 */
+  text-wrap: balance;
+}
+
+/* ---------- 品牌区线稿装饰（唯一的图形元素）
+   一条地平线 + 高矮不一的轴网竖线 + 一条标高虚线：抽象的建筑立面 / 天际线，
+   取代此前的视口预览卡——不描述具体产品内容，只留「把空间画成三维」的气质。
+   颜色全取 token，粉色只落在其中一条「选中」线上（§10.2 原则 1）。
+   aria-hidden：纯装饰，不向屏幕阅读器播报。 */
+.login-lines {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  gap: clamp(18px, 3vw, 40px);
+  width: 100%;
+  max-width: 520px;
+  height: 92px;
+  margin-top: var(--space-7);
+  border-bottom: 1px solid color-mix(in srgb, var(--vp-horizon) 45%, transparent);
+}
+/* 标高虚线：图纸里那条辅助线，把散落的竖线串成一个整体 */
+.login-lines::before {
+  content: '';
+  position: absolute;
+  top: 24%;
+  left: 0;
+  right: 38%;
+  height: 1px;
+  background: repeating-linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--vp-grid) 75%, transparent) 0 6px,
+    transparent 6px 13px
+  );
+}
+/* DOM 顺序即 nth-child 序号（accent 在第 4 位），LoginPage 里增删竖线需同步这里的序号 */
+.login-line-bar {
+  flex: none;
+  width: 1px;
+  background: color-mix(in srgb, var(--color-text) 22%, transparent);
+  transform-origin: bottom center;
+  animation: login-line-grow 0.55s ease-out both;
+}
+.login-line-bar:nth-child(1) {
+  height: 38%;
+  animation-delay: 0.2s;
+}
+.login-line-bar:nth-child(2) {
+  height: 64%;
+  animation-delay: 0.28s;
+}
+.login-line-bar:nth-child(3) {
+  height: 46%;
+  animation-delay: 0.36s;
+}
+.login-line-bar:nth-child(4) {
+  height: 78%;
+  animation-delay: 0.44s;
+}
+.login-line-bar:nth-child(5) {
+  height: 30%;
+  animation-delay: 0.52s;
+}
+/* 选中态：与建模页同一支粉，暗示「线也是可被选中的对象」 */
+.login-line-bar-accent {
+  width: 2px;
+  background: var(--vp-selection);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--vp-selection) 14%, transparent);
+}
+
+.login-brand-foot {
+  position: absolute;
+  left: clamp(40px, 5.5vw, 88px);
+  right: var(--space-6);
+  bottom: var(--space-5);
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+}
+
+/* ---------- 右侧 · 登录区 ----------
+   与品牌区共用整页那张渐变底：不设 border-left 分隔线、不铺独立背景，
+   只用 --login-panel-width 约束宽度把登录卡收到右侧。 */
+.login-panel {
+  position: relative;
+  z-index: var(--z-float);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* P5：右缘留白 32 -> 48，配合 --login-panel-width 540，登录卡距屏幕右缘
+     由 40px 收到 78px——卡片不再贴着视口边缘，左侧也更靠近品牌区 */
+  padding: var(--space-6) var(--space-7) var(--space-6) var(--space-6);
+  overflow-y: auto;
+}
+
+/* 毛玻璃登录卡片 */
+.login-card {
+  position: relative;
+  z-index: var(--z-float);
+  width: 100%;
+  max-width: var(--login-card-width);
+  padding: var(--space-6);
+  border: 1px solid color-mix(in srgb, var(--color-surface) 70%, var(--color-border));
+  border-radius: var(--radius-xl);
+  background: var(--color-surface-glass);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  box-shadow: var(--shadow-pop);
+  animation: login-fade-up 0.55s ease-out 0.12s both;
+}
+.login-title {
+  margin: 0 0 var(--space-1);
+  font-size: var(--text-xl);
+  font-weight: 700;
+}
+.login-sub {
+  margin: 0 0 var(--space-5);
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+/* 卡片内控件增强（覆盖 base 层的通用尺寸） */
+.login-card .field {
+  margin-bottom: var(--space-4);
+}
+.login-card .field-label {
+  font-size: var(--text-sm);
+}
+.login-card .input {
+  height: 44px;
+  padding: 0 var(--space-3);
+  background: var(--color-surface);
+  font-size: var(--text-base);
+}
+.login-card .input:focus {
+  border-color: var(--color-primary);
+  box-shadow: var(--focus-ring-lg);
+}
+/* 自动填充时卡片内输入框保持纯白底（base 层的 inset 阴影在毛玻璃卡上需要更明确的底色） */
+.login-card .input:-webkit-autofill,
+.login-card .input:-webkit-autofill:focus {
+  background: var(--color-surface);
+}
+
+.pwd-wrap {
+  position: relative;
+}
+.pwd-toggle {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: grid;
+  place-items: center;
+  padding: var(--space-1);
+  border: none;
+  background: transparent;
+  color: var(--color-text-muted);
+}
+.pwd-toggle svg {
+  display: block;
+}
+.pwd-toggle:hover {
+  color: var(--color-primary);
+}
+
+/* 主按钮：浅粉渐变 + 深粉字，hover 整档提粉 + 上浮 + 粉光晕。
+   ⚠️ 特异度陷阱：DOM 是 class="btn btn-login"，base.css 的
+   `.btn:hover { background: var(--color-surface-alt) }` 特异度 (0,2,0) 高于单类
+   `.btn-login` (0,1,0)——鼠标一移上去，渐变被通用按钮的浅灰底整条覆盖，而字色没人覆盖
+   → 白底白字、「登 录」当场隐身（截图里那颗没有字的白盒子）。故本块选择器一律写成
+   `.btn.btn-login`（提到 (0,2,0)，且 login.css 晚于 base.css 加载，平手时后来者胜），
+   并在 :hover / :disabled 里显式写回 background。
+   ⚠️ 不新增 hex token：全部由 --color-surface / --color-primary-soft / --color-primary
+   经 color-mix() 派生，免得牵动 tokens.ts 镜像 + HEX_TOKENS 登记表（tokens.test.ts 同源契约）。 */
+.btn.btn-login {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  width: 100%;
+  height: 46px;
+  margin-top: var(--space-1);
+  /* 浅粉底必须靠边框勾轮廓，否则在白卡上糊成一片（原 border: none 是给深粉底用的） */
+  border: 1px solid color-mix(in srgb, var(--color-primary) 24%, var(--color-surface));
+  border-radius: var(--radius-md);
+  background: linear-gradient(
+    135deg,
+    var(--color-surface) 0%,
+    var(--color-primary-soft) 100%
+  );
+  box-shadow: 0 4px 14px color-mix(in srgb, var(--color-primary) 20%, transparent);
+  color: var(--color-primary-deep-hover);
+  font-size: var(--text-lg);
+  font-weight: 600;
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease,
+    border-color 0.15s ease,
+    background 0.15s ease,
+    color 0.15s ease;
+}
+/* hover：渐变「往粉里走一步」（白→浅粉 变 浅粉→粉）+ 上浮 + 更强粉光晕。
+   注：linear-gradient 之间浏览器不做插值，background 是跳变——平滑感由 transform /
+   box-shadow / border-color 的 0.15s 过渡承担，与全站 .btn 的 hover 行为一致。
+   a11y：底色两端 #FCE4EC / ≈#FAE1EA 对 #B53A5F 分别 4.70:1 / 4.59:1，均达 WCAG AA。 */
+.btn.btn-login:hover:not(:disabled) {
+  border-color: color-mix(in srgb, var(--color-primary) 46%, var(--color-surface));
+  background: linear-gradient(
+    135deg,
+    var(--color-primary-soft) 0%,
+    color-mix(in srgb, var(--color-primary) 20%, var(--color-surface)) 100%
+  );
+  transform: translateY(-1px);
+  box-shadow: 0 8px 22px color-mix(in srgb, var(--color-primary) 34%, transparent);
+}
+.btn.btn-login:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: 0 3px 10px color-mix(in srgb, var(--color-primary) 26%, transparent);
+}
+/* 禁用态：旧的 --color-primary-soft 底会和新的常态撞成同一个颜色，故改成「褪色近白 +
+   灰粉字」（5.46:1）——既保住品牌色（P3 口径：不用纯灰表达禁用），又明确不可点。 */
+.btn.btn-login:disabled {
+  border-color: var(--color-border-strong);
+  background: linear-gradient(
+    135deg,
+    var(--color-surface) 0%,
+    var(--color-surface-alt) 100%
+  );
+  box-shadow: none;
+  color: color-mix(in srgb, var(--color-primary-deep-hover) 55%, var(--color-text-muted));
+  cursor: not-allowed;
+  opacity: 1;
+}
+
+.login-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: var(--space-4);
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+}
+/* 注册入口（§10.5：仅注册模式开启时渲染，见 LoginPage 的 REGISTRATION_OPEN） */
+.login-reg-link {
+  color: var(--color-primary-deep);
+  font-weight: 500;
+  text-decoration: none;
+}
+.login-reg-link:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* 登录失败锁定提示（FR-U01） */
+.login-locked {
+  margin: 0 0 10px;
+  font-size: var(--text-xs);
+  color: var(--color-error);
+}
+
+/* ---------- 背景装饰（只留两枚柔光斑：给毛玻璃卡片提供可被模糊的底纹）
+   此前的漂浮圆角方块在渐变底上显得突兀（像未加载完的占位块），已随分栏一起去掉。 */
+.login-glow {
+  position: absolute;
+  z-index: var(--z-deco);
+  pointer-events: none;
+  border-radius: 50%;
+  filter: blur(46px);
+  opacity: 0.5;
+  background: color-mix(in srgb, var(--color-primary) 20%, transparent);
+  animation: login-float 11s ease-in-out infinite;
+}
+/* 靠右上一枚，正好从登录卡背后穿过——卡片移动时能模糊到东西 */
+.login-glow-1 {
+  width: 300px;
+  height: 300px;
+  top: 18%;
+  right: 2%;
+}
+.login-glow-2 {
+  width: 230px;
+  height: 230px;
+  bottom: 6%;
+  left: 3%;
+  background: color-mix(in srgb, var(--color-primary) 14%, transparent);
+  animation-delay: -5.5s;
+}
+
+/* ---------- 动画 ---------- */
+@keyframes login-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes login-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+/* 线稿竖线自地平线生长出来（配合 .login-line-bar 的 transform-origin: bottom） */
+@keyframes login-line-grow {
+  from {
+    opacity: 0;
+    transform: scaleY(0);
+  }
+  to {
+    opacity: 1;
+    transform: scaleY(1);
+  }
+}
+@keyframes login-float {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-16px) rotate(4deg);
+  }
+}
+
+/* ---------- 响应式：品牌区上、登录卡下（单列堆叠） ---------- */
+@media (max-width: 1024px) {
+  .login-page {
+    grid-template-columns: 1fr;
+    align-content: start;
+    overflow-y: auto;
+  }
+  .login-hero {
+    padding: var(--space-5) var(--space-5) 0;
+  }
+  .login-hero-body {
+    margin-top: var(--space-5);
+  }
+  .login-lines {
+    height: 72px;
+    margin-top: var(--space-5);
+  }
+  .login-brand-foot {
+    display: none;
+  }
+  .login-panel {
+    padding: var(--space-5) var(--space-5) var(--space-6);
+    justify-content: flex-start;
+  }
+  .login-card {
+    max-width: 420px;
+  }
+}
+@media (max-width: 640px) {
+  .login-hero-title {
+    font-size: var(--text-2xl);
+  }
+  .login-hero-desc {
+    font-size: var(--text-base);
+  }
+  .login-card {
+    padding: var(--space-4);
+  }
+  .login-lines {
+    gap: var(--space-5);
+    max-width: 320px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .login-page,
+  .login-hero,
+  .login-card,
+  .login-line-bar,
+  .login-glow,
+  .spinner {
+    animation: none !important;
+  }
+}

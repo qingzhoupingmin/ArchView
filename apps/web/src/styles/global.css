@@ -1,0 +1,60 @@
+/* ============ ArchView 全局样式入口（粉白风格，产品文档 §10） ============
+   具体规则按职责拆分到同目录文件（P2 布局优化）：
+     base.css       重置 · 通用控件 · 弹窗 · 表格 · 徽章 · Toast
+     layout.css     主框架 · 顶栏 · 应用页头 · 面板容器 · 视口容器 · 状态栏 · 居中占位页
+     components.css 组件库面板 · 属性面板 · 统计 · 视口 HUD
+     pages.css      登录页 · 工程列表 · 管理中心 · 个人中心
+      fps.css        性能基线页（S2.0d / T3.6，/fps 开发工具）
+   颜色 / 间距 / 圆角 / 阴影 / 层级一律引用 @archview/theme 的 CSS 变量，禁止硬编码（开发计划 §6 DoD）。
+   @import 顺序即层叠顺序，调整前先确认优先级。 */
+
+@import './base.css';
+@import './layout.css';
+@import './components.css';
+@import './login.css';
+@import './pages.css';
+@import './fps.css';
+
+/* ---------- 无障碍（P2）：统一键盘焦点环（此前只有登录输入框有 focus 样式） ---------- */
+:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* P3：输入框已有 border 变色 + box-shadow 环两层反馈，再叠 outline 会变成三层脏边
+   （登录卡截图里可见）。此处只关掉 .input 的 outline，其余控件仍走上面的统一焦点环。 */
+.input:focus-visible {
+  outline: none;
+}
+
+/* 跳过导航直达主内容（Tab 一次可见） */
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: var(--z-toast);
+  padding: 8px 14px;
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  color: var(--color-primary-deep);
+  font-size: 13px;
+  text-decoration: none;
+  box-shadow: var(--shadow-pop);
+}
+.skip-link:focus {
+  left: 12px;
+  top: 12px;
+}
+
+/* 视觉隐藏、屏幕阅读器可读 */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}

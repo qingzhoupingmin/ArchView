@@ -1,0 +1,496 @@
+/* ============ 基础层：重置 / 通用控件 / 弹窗 / 表格 / 徽章 / Toast（由 global.css 拆分）============ */
+
+/* ============ ArchView 全局样式（粉白风格，产品文档 §10） ============
+   颜色一律引用 @archview/theme 的 CSS 变量，禁止硬编码色值（开发计划 §6 DoD） */
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family:
+    'PingFang SC',
+    'Microsoft YaHei',
+    system-ui,
+    -apple-system,
+    sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+input {
+  font-family: inherit;
+}
+
+.muted {
+  color: var(--color-text-muted);
+  font-size: 12px;
+}
+
+/* ---------- 通用控件（设计原则：圆角 8px、柔和粉调阴影，§10.2） ---------- */
+.btn {
+  height: 30px;
+  padding: 0 12px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-size: 13px;
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease,
+    color 0.15s ease;
+}
+.btn:hover {
+  background: var(--color-surface-alt);
+}
+/* P3 a11y：不再用 opacity 表达禁用——原 opacity .5 会把白字压到 2.x:1 不可读，
+   改为「降背景 + 降前景」，文字对比度保持 AA，且与可点态仍有明显区分。 */
+.btn:disabled {
+  color: var(--color-text-muted);
+  border-color: var(--color-border-strong);
+  background: var(--color-surface-alt);
+  cursor: not-allowed;
+}
+.btn-primary {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: var(--color-surface);
+  font-weight: 500;
+}
+.btn-primary:hover:not(:disabled) {
+  background: var(--color-primary-hover);
+  border-color: var(--color-primary-hover);
+}
+/* 主按钮禁用：浅粉低饱和底 + 深粉文字（4.6:1），比「淡粉 + 白字」既可读又保留品牌色 */
+.btn-primary:disabled {
+  color: var(--color-primary-deep);
+  background: var(--color-primary-soft);
+  border-color: var(--color-primary-soft);
+  opacity: 1;
+}
+.btn-block {
+  width: 100%;
+  height: 38px;
+}
+/* 切换型按钮（如个人中心的「深色界面」开关）：此前 aria-pressed 在 .btn 上无任何视觉反馈，
+   点了看不出状态。这里补上与 .btn-icon 一致的激活态。 */
+.btn[aria-pressed='true'] {
+  color: var(--color-primary-hover);
+  border-color: var(--color-primary-soft);
+  background: var(--color-primary-soft);
+}
+
+.btn-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  min-width: 30px;
+  height: 30px;
+  padding: 0 8px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  color: var(--color-text-muted);
+  font-size: 13px;
+  /* 明确列出属性：transition: all 会连带 backdrop-filter / box-shadow 产生抖动 */
+  transition:
+    color 0.15s ease,
+    border-color 0.15s ease,
+    background 0.15s ease;
+}
+.btn-icon:hover:not(:disabled) {
+  color: var(--color-primary);
+  border-color: var(--color-primary-soft);
+  background: var(--color-primary-soft);
+}
+.btn-icon[aria-pressed='true'] {
+  color: var(--color-primary-hover);
+  border-color: var(--color-primary-soft);
+  background: var(--color-primary-soft);
+}
+.btn-icon:disabled {
+  color: var(--color-border-strong);
+  border-color: var(--color-border);
+  background: var(--color-surface-alt);
+  cursor: not-allowed;
+}
+
+.seg {
+  display: inline-flex;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background: var(--color-surface);
+}
+.seg-item {
+  border: none;
+  background: transparent;
+  padding: 0 14px;
+  height: 28px;
+  font-size: 13px;
+  color: var(--color-text-muted);
+}
+.seg-item.active {
+  background: var(--color-primary);
+  color: var(--color-surface);
+}
+
+.input {
+  width: 100%;
+  height: 34px;
+  padding: 0 10px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface-alt);
+  color: var(--color-text);
+  font-size: 13px;
+  outline: none;
+  transition:
+    border-color 0.15s ease,
+    background 0.15s ease;
+}
+.input:focus {
+  border-color: var(--color-primary);
+  background: var(--color-surface);
+}
+/* P3：焦点环统一由 box-shadow 承担（global.css 的 :focus-visible outline 在 .input 上关闭），
+   避免登录卡出现「border + ring + outline」三层叠加的脏边。 */
+.input:focus-visible {
+  box-shadow: var(--focus-ring);
+}
+.input:disabled {
+  color: var(--color-text-muted);
+  background: var(--color-surface-alt);
+  border-color: var(--color-border);
+  cursor: not-allowed;
+}
+/* P3：浏览器自动填充会强行刷成系统底色（截图里输入框变蓝紫），彻底打穿粉白 token。
+   用 inset box-shadow 顶住背景、text-fill-color 顶住文字，并冻结 background-color 过渡。 */
+.input:-webkit-autofill,
+.input:-webkit-autofill:hover,
+.input:-webkit-autofill:focus,
+.input:-webkit-autofill:active {
+  -webkit-text-fill-color: var(--color-text);
+  -webkit-box-shadow: 0 0 0 1000px var(--color-surface) inset;
+  caret-color: var(--color-text);
+  border-color: var(--color-border);
+  transition: background-color 9999s ease-in-out 0s;
+}
+.input:-webkit-autofill:focus-visible {
+  -webkit-box-shadow:
+    0 0 0 1000px var(--color-surface) inset,
+    0 0 0 3px var(--color-primary-soft);
+}
+
+/* ---------- 面板通用 ---------- */
+.panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--color-border);
+  flex: none;
+}
+.panel-title {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* ---------- Toast（反馈规范 §10.3：成功底部 2s / 错误顶部 5s） ---------- */
+.toast-stack {
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: var(--z-toast);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  pointer-events: none;
+  width: max-content;
+  max-width: 80vw;
+}
+.toast-stack.top {
+  top: 16px;
+}
+.toast-stack.bottom {
+  bottom: 40px;
+}
+.toast {
+  pointer-events: auto;
+  cursor: pointer;
+  padding: 8px 16px;
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-soft);
+  font-size: 13px;
+}
+.toast-error {
+  color: var(--color-error);
+  border-color: var(--color-error);
+}
+.toast-success {
+  color: var(--color-success);
+  border-color: var(--color-success);
+}
+
+/* ---------- 头像尺寸 ---------- */
+.avatar-sm {
+  width: 28px;
+  height: 28px;
+  font-size: 13px;
+}
+.avatar-xs {
+  width: 22px;
+  height: 22px;
+  font-size: 11px;
+  flex: none;
+}
+.avatar-lg {
+  width: 56px;
+  height: 56px;
+  font-size: 28px;
+}
+/* P4 个人中心身份卡：96px 档，emoji 头像在大屏下需要更足的视觉重量 */
+.avatar-xl {
+  width: 96px;
+  height: 96px;
+  flex: none;
+  border-radius: var(--radius-lg);
+  font-size: 44px;
+}
+
+/* ---------- 通用弹窗（T1.1~T1.5） ---------- */
+.dialog-backdrop {
+  position: fixed;
+  inset: 0;
+  background: var(--color-overlay);
+  backdrop-filter: blur(2px);
+  z-index: var(--z-dialog-backdrop);
+}
+.dialog {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: var(--z-dialog);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-pop);
+  max-width: calc(100vw - 32px);
+  max-height: calc(100vh - 64px);
+  display: flex;
+  flex-direction: column;
+}
+.dialog-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 18px 0;
+}
+.dialog-title {
+  margin: 0;
+  font-size: 15px;
+}
+.dialog-close {
+  /* P3：关闭符号由 × 字符换成 Icon 组件，故改为定宽网格居中，不再靠 font-size 撑 */
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  padding: 0;
+  border: none;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--color-text-muted);
+}
+.dialog-close:hover {
+  color: var(--color-text);
+  background: var(--color-surface-alt);
+}
+.dialog-body {
+  padding: 14px 18px;
+  overflow: auto;
+  font-size: 13px;
+}
+.dialog-body .field {
+  margin-bottom: 12px;
+}
+.dialog-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 0 18px 16px;
+}
+/* 少数弹窗要「左边一个次要动作、右边一组主操作」（如帮助弹窗的「重新显示上手引导」）：
+   用 margin-right:auto 把它推到行首，不改 .dialog-footer 的 justify-content——
+   那是所有弹窗共用的，动一次就要回头检查十几处排版 */
+.dialog-footer .foot-left {
+  margin-right: auto;
+}
+
+/* 弹窗内两列表单（矩形阵列等 T2.3 表单）：字段紧凑排布 */
+.array-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 12px;
+}
+.array-grid .field {
+  margin-bottom: 12px;
+}
+
+/* ---------- 数据表格（用户管理 / 通用） ---------- */
+.table-wrap {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  overflow: auto;
+}
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+.data-table th,
+.data-table td {
+  padding: 10px 12px;
+  text-align: left;
+  border-bottom: 1px solid var(--color-border);
+  white-space: nowrap;
+}
+.data-table th {
+  background: var(--color-surface-alt);
+  color: var(--color-text-muted);
+  font-weight: 500;
+  font-size: 12px;
+}
+.data-table tbody tr:last-child td {
+  border-bottom: none;
+}
+.data-table tbody tr:hover td {
+  background: var(--color-surface-alt);
+}
+.data-table td:first-child {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+/* 数据行「账号已禁用」是状态而非控件禁用，保留降透明度的整行语义，
+   但 0.55 会把 12px 文字压到约 3:1，提到 0.7 保证仍能读出内容（P3 a11y） */
+.data-table tr.row-disabled td {
+  opacity: 0.7;
+}
+.th-actions {
+  width: 180px;
+}
+.td-actions {
+  display: flex;
+  gap: 6px;
+}
+
+/* ---------- 徽章（角色 / 状态） ---------- */
+.badge {
+  display: inline-block;
+  padding: 1px 8px;
+  border-radius: var(--radius-pill);
+  font-size: 12px;
+  line-height: 18px;
+}
+.badge-pink {
+  background: var(--color-primary-soft);
+  color: var(--color-primary-hover);
+}
+.badge-ok {
+  background: var(--color-success-soft);
+  color: var(--color-success);
+}
+.badge-warn {
+  background: var(--color-warning-soft);
+  color: var(--color-warning);
+}
+.badge-muted {
+  background: var(--color-surface-alt);
+  color: var(--color-text-muted);
+}
+
+/* ---------- 表单字段（P0 布局优化：从登录页区块上移到基础层，弹窗 / 个人中心 / 登录卡共用） ---------- */
+.field {
+  display: block;
+  margin-bottom: var(--space-4);
+}
+.field-label {
+  display: block;
+  margin-bottom: var(--space-1);
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+}
+/* 多字段并排（P5 房间弹窗：尺寸 / 位置各一行三列）；窄弹窗自动回退单列 */
+.field-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 0 var(--space-3);
+}
+/* 表单内联校验提示（P5 房间占地重叠）：取状态色而非粉色——粉色只留给动作与选中（§10.2） */
+.field-warn {
+  margin: calc(var(--space-2) * -1) 0 var(--space-4);
+  font-size: var(--text-xs);
+  line-height: 1.6;
+  color: var(--color-error);
+}
+
+/* ---------- 加载指示器（P0：原名 .login-spinner，被工程列表 / 管理中心 / 建模页跨页借用）
+   颜色跟随 currentColor：浅底上用 muted 文字色，深粉按钮内自动变白 ---------- */
+.spinner {
+  width: 14px;
+  height: 14px;
+  flex: none;
+  border-radius: 50%;
+  border: 2px solid color-mix(in srgb, currentColor 28%, transparent);
+  border-top-color: currentColor;
+  animation: spinner-rotate 0.7s linear infinite;
+}
+@keyframes spinner-rotate {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ---------- 次级 / 危险按钮变体 ---------- */
+.btn-ghost {
+  border-color: transparent;
+  background: transparent;
+  color: var(--color-text-muted);
+}
+.btn-ghost:hover {
+  background: var(--color-primary-soft);
+  color: var(--color-primary-hover);
+}
+.btn-sm {
+  height: 26px;
+  padding: 0 var(--space-2);
+  font-size: var(--text-xs);
+}
+.btn-danger:hover:not(:disabled) {
+  color: var(--color-error);
+  border-color: color-mix(in srgb, var(--color-error) 35%, transparent);
+  background: var(--color-error-soft);
+}
